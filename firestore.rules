@@ -1,0 +1,569 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net: Default-deny all unmapped collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Hardened Global Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isVerifiedAdminEmail() {
+      return isSignedIn() &&
+        request.auth.token.email == 'allindiadigitalseva@gmail.com' &&
+        request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isVerifiedAdminEmail() ||
+        (isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    }
+
+    function isManagerOrAdmin() {
+      return isAdmin() || (
+        isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'manager'
+      );
+    }
+
+    // Validation Blueprint: User Profile
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'role']) &&
+             data.keys().hasOnly([
+               'uid', 'displayName', 'email', 'mobile', 'role', 'accountType',
+               'companyName', 'businessId', 'partnerId', 'referralCode', 'referredByCode',
+               'kycStatus', 'operatorEnrollmentId', 'managerScope', 'createdAt', 'updatedAt'
+             ]) &&
+             data.uid is string && data.uid.size() > 0 && data.uid.size() <= 128 &&
+             data.email is string && data.email.size() > 0 && data.email.size() <= 150 &&
+             (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 100)) &&
+             (!('mobile' in data) || (data.mobile is string && data.mobile.size() <= 25)) &&
+             data.role in ['customer', 'operator', 'manager', 'partner', 'admin', 'super_admin', 'business'] &&
+             (!('accountType' in data) || data.accountType in ['customer', 'business', 'operator', 'partner', 'manager', 'admin']) &&
+             (!('companyName' in data) || (data.companyName is string && data.companyName.size() <= 140)) &&
+             (!('businessId' in data) || (data.businessId is string && data.businessId.size() <= 64)) &&
+             (!('partnerId' in data) || (data.partnerId is string && data.partnerId.size() <= 64)) &&
+             (!('referralCode' in data) || (data.referralCode is string && data.referralCode.size() <= 40)) &&
+             (!('referredByCode' in data) || (data.referredByCode is string && data.referredByCode.size() <= 40)) &&
+             (!('kycStatus' in data) || data.kycStatus in ['Not Submitted', 'KYC Submitted', 'Under Verification', 'Resubmission Required', 'Approved', 'Rejected']) &&
+             (!('operatorEnrollmentId' in data) || (data.operatorEnrollmentId is string && data.operatorEnrollmentId.size() <= 64)) &&
+             (!('managerScope' in data) || (data.managerScope is string && data.managerScope.size() <= 100)) &&
+             (!('createdAt' in data) || (data.createdAt is string && data.createdAt.size() <= 50)) &&
+             (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 50));
+    }
+
+    // Validation Blueprint: Service / Product Catalog Item
+    function isValidServiceProduct(data) {
+      return data.keys().hasAll(['id', 'slug', 'name', 'category', 'serviceCharge', 'govtFees']) &&
+             data.keys().hasOnly([
+               'id', 'slug', 'name', 'nameHi', 'category', 'subcategory', 'productType',
+               'shortDesc', 'shortDescHi', 'fullDesc', 'fullDescHi', 'iconName',
+               'coverImageUrl', 'serviceCharge', 'govtFees', 'thirdPartyFees',
+               'additionalCharge', 'urgentFee', 'discountInr', 'taxRateBps',
+               'taxInclusive', 'partnerPriceInr', 'billingUnit', 'pricingType',
+               'govtFeeNote', 'commissionNote', 'deliveryType', 'formVersion',
+               'slaHours', 'published', 'supportedFilingModes', 'autoAssignRule',
+               'serviceDisclaimer', 'regulatedNotice', 'instructions', 'conditions',
+               'estimatedTime', 'integrationType', 'availability', 'apiSetuRef',
+               'providerApprovalStatus', 'customerConsentRequired', 'b2bSupported',
+               'popular', 'featured', 'isCustomQuote', 'includedServiceIds',
+               'exclusions', 'packageSavingsInr', 'digitalAsset', 'seoTitle',
+               'seoDescription', 'focusKeyword', 'canonicalUrl', 'eligibility', 'requiredDocs',
+               'processSteps', 'formFields', 'faqs', 'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 80 &&
+             data.slug is string && data.slug.size() > 0 && data.slug.size() <= 120 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 160 &&
+             (!('nameHi' in data) || (data.nameHi is string && data.nameHi.size() <= 180)) &&
+             data.category is string && data.category.size() > 0 && data.category.size() <= 64 &&
+             data.serviceCharge is number && data.serviceCharge >= 0 &&
+             data.govtFees is number && data.govtFees >= 0 &&
+             (!('shortDesc' in data) || (data.shortDesc is string && data.shortDesc.size() <= 500)) &&
+             (!('shortDescHi' in data) || (data.shortDescHi is string && data.shortDescHi.size() <= 500)) &&
+             (!('fullDesc' in data) || (data.fullDesc is string && data.fullDesc.size() <= 4000)) &&
+             (!('estimatedTime' in data) || (data.estimatedTime is string && data.estimatedTime.size() <= 100)) &&
+             (!('seoTitle' in data) || (data.seoTitle is string && data.seoTitle.size() <= 120)) &&
+             (!('seoDescription' in data) || (data.seoDescription is string && data.seoDescription.size() <= 240)) &&
+             (!('focusKeyword' in data) || (data.focusKeyword is string && data.focusKeyword.size() <= 100)) &&
+             (!('canonicalUrl' in data) || (data.canonicalUrl is string && data.canonicalUrl.size() <= 250)) &&
+             (!('eligibility' in data) || (data.eligibility is list && data.eligibility.size() <= 20)) &&
+             (!('requiredDocs' in data) || (data.requiredDocs is list && data.requiredDocs.size() <= 20)) &&
+             (!('processSteps' in data) || (data.processSteps is list && data.processSteps.size() <= 12)) &&
+             (!('formFields' in data) || (data.formFields is list && data.formFields.size() <= 40)) &&
+             (!('faqs' in data) || (data.faqs is list && data.faqs.size() <= 20));
+    }
+
+    // Validation Blueprint: Application Dossier (multi-channel)
+    function isValidApplication(data) {
+      return data.keys().hasAll(['id', 'userId', 'serviceId', 'status']) &&
+             data.keys().hasOnly([
+               'id', 'userId', 'collectedByUid', 'partnerId', 'partnerName', 'filingMode',
+               'referralCodeUsed', 'assistedConsentRecorded', 'assignedOperatorId',
+               'assignedOperatorName', 'sourceChannel', 'businessId', 'userName',
+               'userEmail', 'userMobile', 'serviceId', 'serviceName', 'serviceSlug',
+               'formVersion', 'status', 'totalAmount', 'urgentProcessing',
+               'includedServiceIds', 'payment', 'formData', 'documents',
+               'statusHistory', 'customerRemarks', 'internalNotes', 'completionFileName',
+               'completionFileUrl', 'slaTargetAt', 'submissionDate', 'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+             data.userId is string && data.userId.size() > 0 && data.userId.size() <= 128 &&
+             data.serviceId is string && data.serviceId.size() > 0 && data.serviceId.size() <= 80 &&
+             (!('serviceName' in data) || (data.serviceName is string && data.serviceName.size() <= 160)) &&
+             (!('serviceSlug' in data) || (data.serviceSlug is string && data.serviceSlug.size() <= 120)) &&
+             (!('userName' in data) || (data.userName is string && data.userName.size() <= 120)) &&
+             (!('userEmail' in data) || (data.userEmail is string && data.userEmail.size() <= 150)) &&
+             (!('userMobile' in data) || (data.userMobile is string && data.userMobile.size() <= 30)) &&
+             (!('assignedOperatorId' in data) || (data.assignedOperatorId is string && data.assignedOperatorId.size() <= 128)) &&
+             (!('assignedOperatorName' in data) || (data.assignedOperatorName is string && data.assignedOperatorName.size() <= 120)) &&
+             (!('collectedByUid' in data) || (data.collectedByUid is string && data.collectedByUid.size() <= 128)) &&
+             (!('partnerId' in data) || (data.partnerId is string && data.partnerId.size() <= 64)) &&
+             (!('sourceChannel' in data) || data.sourceChannel in ['web_b2c', 'b2b_portal', 'operator_assisted', 'partner_assisted', 'google_forms', 'admin_manual']) &&
+             data.status is string && data.status.size() > 0 && data.status.size() <= 60 &&
+             (!('totalAmount' in data) || (data.totalAmount is number && data.totalAmount >= 0)) &&
+             (!('customerRemarks' in data) || (data.customerRemarks is string && data.customerRemarks.size() <= 1000)) &&
+             (!('internalNotes' in data) || (data.internalNotes is string && data.internalNotes.size() <= 1000)) &&
+             (!('completionFileName' in data) || (data.completionFileName is string && data.completionFileName.size() <= 160)) &&
+             (!('completionFileUrl' in data) || (data.completionFileUrl is string && data.completionFileUrl.size() <= 300)) &&
+             (!('documents' in data) || (data.documents is list && data.documents.size() <= 20)) &&
+             (!('statusHistory' in data) || (data.statusHistory is list && data.statusHistory.size() <= 50));
+    }
+
+    // Validation Blueprint: Authenticated Tracking Projection
+    function isValidTrackingRecord(data) {
+      return data.keys().hasAll(['id', 'ownerUid', 'serviceName', 'status']) &&
+             data.keys().hasOnly([
+               'id', 'ownerUid', 'collectedByUid', 'assignedOperatorId',
+               'serviceName', 'applicantMaskedName', 'contactMobileDigits',
+               'contactEmailLower', 'sourceChannel', 'status', 'customerRemarks',
+               'completionFileName', 'totalAmount', 'statusHistory',
+               'submissionDate', 'updatedAt'
+             ]) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+             data.ownerUid is string && data.ownerUid.size() > 0 && data.ownerUid.size() <= 128 &&
+             data.serviceName is string && data.serviceName.size() <= 140 &&
+             data.status is string && data.status.size() <= 60 &&
+             (!('customerRemarks' in data) || (data.customerRemarks is string && data.customerRemarks.size() <= 1000)) &&
+             (!('completionFileName' in data) || (data.completionFileName is string && data.completionFileName.size() <= 160)) &&
+             (!('statusHistory' in data) || (data.statusHistory is list && data.statusHistory.size() <= 50));
+    }
+
+    // Validation Blueprint: Operator Enrollment & KYC
+    function isValidOperatorEnrollment(data) {
+      return data.keys().hasAll(['id', 'userId', 'fullName', 'email', 'mobile', 'panNumber', 'kycStatus']) &&
+             data.keys().hasOnly([
+               'id', 'userId', 'fullName', 'email', 'mobile', 'centerName',
+               'operatingState', 'operatingDistrict', 'centerAddress', 'pincode',
+               'panNumber', 'maskedAadhaar', 'bankAccountHolder', 'bankIfsc',
+               'maskedBankAccount', 'experienceYears', 'kycDocuments',
+               'kycStatus', 'adminRemarks', 'reviewedBy', 'reviewedAt',
+               'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+             data.userId is string && data.userId.size() > 0 && data.userId.size() <= 128 &&
+             data.fullName is string && data.fullName.size() > 0 && data.fullName.size() <= 120 &&
+             data.email is string && data.email.size() > 0 && data.email.size() <= 150 &&
+             data.mobile is string && data.mobile.size() >= 10 && data.mobile.size() <= 25 &&
+             data.panNumber is string && data.panNumber.size() == 10 &&
+             (!('centerName' in data) || (data.centerName is string && data.centerName.size() <= 140)) &&
+             (!('centerAddress' in data) || (data.centerAddress is string && data.centerAddress.size() <= 300)) &&
+             (!('kycDocuments' in data) || (data.kycDocuments is list && data.kycDocuments.size() <= 8)) &&
+             data.kycStatus in ['KYC Submitted', 'Under Verification', 'Resubmission Required', 'Approved', 'Rejected'] &&
+             (!('adminRemarks' in data) || (data.adminRemarks is string && data.adminRemarks.size() <= 600));
+    }
+
+    // Validation Blueprint: Partner Profile
+    function isValidPartner(data) {
+      return data.keys().hasAll(['id', 'userId', 'partnerCode', 'referralCode', 'businessName', 'approvalStatus']) &&
+             data.keys().hasOnly([
+               'id', 'userId', 'partnerCode', 'referralCode', 'partnerType',
+               'fullName', 'businessName', 'email', 'mobile', 'state', 'district',
+               'pincode', 'panMasked', 'bankIfsc', 'bankAccountMasked',
+               'approvalStatus', 'minSettlementInr', 'totalReferrals',
+               'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+             data.userId is string && data.userId.size() > 0 && data.userId.size() <= 128 &&
+             data.partnerCode is string && data.partnerCode.size() > 0 && data.partnerCode.size() <= 40 &&
+             data.referralCode is string && data.referralCode.size() > 0 && data.referralCode.size() <= 40 &&
+             data.businessName is string && data.businessName.size() > 0 && data.businessName.size() <= 140 &&
+             (!('fullName' in data) || (data.fullName is string && data.fullName.size() <= 120)) &&
+             (!('email' in data) || (data.email is string && data.email.size() <= 150)) &&
+             (!('mobile' in data) || (data.mobile is string && data.mobile.size() <= 25)) &&
+             (!('state' in data) || (data.state is string && data.state.size() <= 80)) &&
+             (!('district' in data) || (data.district is string && data.district.size() <= 80)) &&
+             (!('pincode' in data) || (data.pincode is string && data.pincode.size() <= 12)) &&
+             data.approvalStatus in ['Pending Approval', 'Approved', 'Suspended', 'Rejected'];
+    }
+
+    // Validation Blueprint: Commission Ledger Entry
+    function isValidCommissionEntry(data) {
+      return data.keys().hasAll(['id', 'partnerId', 'applicationId', 'netPaise', 'status']) &&
+             data.keys().hasOnly([
+               'id', 'partnerId', 'partnerUid', 'applicationId', 'serviceName',
+               'entryType', 'grossServiceFeePaise', 'commissionPaise', 'tdsPaise',
+               'netPaise', 'status', 'notes', 'createdAt'
+             ]) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+             data.partnerId is string && data.partnerId.size() > 0 && data.partnerId.size() <= 64 &&
+             (!('partnerUid' in data) || (data.partnerUid is string && data.partnerUid.size() <= 128)) &&
+             data.applicationId is string && data.applicationId.size() > 0 && data.applicationId.size() <= 64 &&
+             data.netPaise is number &&
+             (!('entryType' in data) || data.entryType in ['EARNED', 'REVERSAL', 'SETTLED']) &&
+             data.status in ['Pending', 'Approved', 'Settled', 'Reversed'] &&
+             (!('notes' in data) || (data.notes is string && data.notes.size() <= 500));
+    }
+
+    // Validation Blueprint: Settlement Request
+    function isValidSettlementRequest(data) {
+      return data.keys().hasAll(['id', 'partnerId', 'requestedPaise', 'status']) &&
+             data.keys().hasOnly([
+               'id', 'partnerId', 'partnerUid', 'partnerName', 'requestedPaise',
+               'status', 'payoutReference', 'adminRemarks', 'requestedAt', 'processedAt'
+             ]) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+             data.partnerId is string && data.partnerId.size() > 0 && data.partnerId.size() <= 64 &&
+             (!('partnerUid' in data) || (data.partnerUid is string && data.partnerUid.size() <= 128)) &&
+             (!('partnerName' in data) || (data.partnerName is string && data.partnerName.size() <= 140)) &&
+             data.requestedPaise is number && data.requestedPaise > 0 &&
+             data.status in ['Requested', 'Under Review', 'Approved', 'Paid', 'Rejected'] &&
+             (!('payoutReference' in data) || (data.payoutReference is string && data.payoutReference.size() <= 120)) &&
+             (!('adminRemarks' in data) || (data.adminRemarks is string && data.adminRemarks.size() <= 500));
+    }
+
+    // Validation Blueprint: Workspace Audits
+    function isValidWorkspaceAudit(data) {
+      return data.keys().hasAll(['id', 'userId', 'actionType', 'targetService', 'timestamp']) &&
+             data.keys().hasOnly(['id', 'userId', 'actionType', 'targetService', 'details', 'timestamp']) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+             data.userId == request.auth.uid &&
+             data.actionType is string && data.actionType.size() <= 50 &&
+             data.targetService in ['drive', 'gmail', 'forms', 'tasks'] &&
+             (!('details' in data) || (data.details is string && data.details.size() <= 500));
+    }
+
+    // Validation Blueprint: Blog Post & SEO Metadata
+    function isValidBlogPost(data) {
+      return data.keys().hasAll(['id', 'slug', 'title', 'excerpt', 'content', 'category', 'status', 'authorName', 'publishedAt', 'updatedAt', 'readingTimeMinutes']) &&
+             data.keys().hasOnly([
+               'id', 'slug', 'title', 'titleHi', 'excerpt', 'excerptHi',
+               'content', 'contentHi', 'category', 'tags', 'status', 'featured',
+               'authorName', 'authorRole', 'publishedAt', 'updatedAt',
+               'readingTimeMinutes', 'relatedServiceSlug', 'seoTitle',
+               'seoDescription', 'focusKeyword', 'canonicalUrl',
+               'featuredImageUrl', 'featuredImageKey', 'faqItems'
+             ]) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+             data.slug is string && data.slug.size() > 0 && data.slug.size() <= 110 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 180 &&
+             (!('titleHi' in data) || (data.titleHi is string && data.titleHi.size() <= 200)) &&
+             data.excerpt is string && data.excerpt.size() > 0 && data.excerpt.size() <= 400 &&
+             (!('excerptHi' in data) || (data.excerptHi is string && data.excerptHi.size() <= 420)) &&
+             data.content is string && data.content.size() > 0 && data.content.size() <= 20000 &&
+             (!('contentHi' in data) || (data.contentHi is string && data.contentHi.size() <= 20000)) &&
+             data.category is string && data.category.size() > 0 && data.category.size() <= 64 &&
+             data.status in ['published', 'draft', 'archived'] &&
+             (!('featured' in data) || data.featured is bool) &&
+             data.authorName is string && data.authorName.size() > 0 && data.authorName.size() <= 100 &&
+             (!('authorRole' in data) || (data.authorRole is string && data.authorRole.size() <= 100)) &&
+             data.publishedAt is string && data.publishedAt.size() <= 50 &&
+             data.updatedAt is string && data.updatedAt.size() <= 50 &&
+             data.readingTimeMinutes is number && data.readingTimeMinutes >= 1 && data.readingTimeMinutes <= 120 &&
+             (!('relatedServiceSlug' in data) || (data.relatedServiceSlug is string && data.relatedServiceSlug.size() <= 100)) &&
+             (!('seoTitle' in data) || (data.seoTitle is string && data.seoTitle.size() <= 110)) &&
+             (!('seoDescription' in data) || (data.seoDescription is string && data.seoDescription.size() <= 200)) &&
+             (!('focusKeyword' in data) || (data.focusKeyword is string && data.focusKeyword.size() <= 100)) &&
+             (!('canonicalUrl' in data) || (data.canonicalUrl is string && data.canonicalUrl.size() <= 250)) &&
+             (!('featuredImageUrl' in data) || (data.featuredImageUrl is string && data.featuredImageUrl.size() <= 500)) &&
+             (!('featuredImageKey' in data) || (data.featuredImageKey is string && data.featuredImageKey.size() <= 250)) &&
+             (!('tags' in data) || (data.tags is list && data.tags.size() <= 10 && (data.tags.size() == 0 || data.tags[0] is string))) &&
+             (!('faqItems' in data) || (data.faqItems is list && data.faqItems.size() <= 8));
+    }
+
+    // 1. Users Collection
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isManagerOrAdmin();
+      allow list: if isVerifiedAdminEmail();
+      allow create: if isSignedIn() && isOwner(userId) && isValidId(userId) &&
+                       isValidUser(incoming()) &&
+                       incoming().uid == request.auth.uid &&
+                       (incoming().role in ['customer', 'business'] || isAdmin());
+      allow update: if isSignedIn() && (isOwner(userId) || isAdmin()) && isValidId(userId) &&
+                       incoming().uid == existing().uid && isValidUser(incoming()) &&
+                       (isAdmin() || (
+                         incoming().role == existing().role &&
+                         (!('kycStatus' in incoming()) || incoming().kycStatus == 'KYC Submitted' || ('kycStatus' in existing() && incoming().kycStatus == existing().kycStatus))
+                       ));
+      allow delete: if isAdmin() && isValidId(userId);
+    }
+
+    // 2. Services & Products Catalog (Public read-only catalog; admin writes)
+    match /services/{serviceId} {
+      allow get: if isValidId(serviceId);
+      allow list: if resource.data.published == true || isVerifiedAdminEmail();
+      allow create, update: if isAdmin() && isValidId(serviceId) && isValidServiceProduct(incoming());
+      allow delete: if isAdmin() && isValidId(serviceId);
+    }
+
+    // 3. Multi-Channel Application Dossiers (Strict ownership & assignment isolation)
+    match /applications/{applicationId} {
+      allow get: if isSignedIn() && isValidId(applicationId) && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.collectedByUid == request.auth.uid ||
+        resource.data.assignedOperatorId == request.auth.uid ||
+        isManagerOrAdmin()
+      );
+      allow list: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.collectedByUid == request.auth.uid ||
+        resource.data.assignedOperatorId == request.auth.uid ||
+        isVerifiedAdminEmail()
+      );
+      allow create: if isSignedIn() && isValidId(applicationId) && isValidApplication(incoming()) && (
+        isManagerOrAdmin() || (
+          (incoming().userId == request.auth.uid || incoming().collectedByUid == request.auth.uid) &&
+          incoming().status in ['Draft', 'Submitted', 'Payment Pending', 'Awaiting Payment', 'Payment Confirmed'] &&
+          !('internalNotes' in incoming())
+        )
+      );
+      allow update: if isSignedIn() && isValidId(applicationId) && isValidApplication(incoming()) && (
+        (isManagerOrAdmin() && incoming().userId == existing().userId) ||
+        (
+          (existing().assignedOperatorId == request.auth.uid || existing().collectedByUid == request.auth.uid) &&
+          incoming().userId == existing().userId &&
+          incoming().totalAmount == existing().totalAmount &&
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'status', 'statusHistory', 'customerRemarks', 'internalNotes',
+            'documents', 'completionFileName', 'completionFileUrl', 'updatedAt'
+          ])
+        ) ||
+        (
+          existing().userId == request.auth.uid &&
+          incoming().userId == existing().userId &&
+          incoming().totalAmount == existing().totalAmount &&
+          incoming().status in ['Submitted', 'Resubmitted', 'Cancelled'] &&
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'documents', 'customerRemarks', 'status', 'statusHistory', 'updatedAt'
+          ])
+        )
+      );
+      allow delete: if isAdmin() && isValidId(applicationId);
+    }
+
+    // 4. Tracking Projection (Strict owner/assignee access; public tracking routed through verified Worker API)
+    match /tracking_records/{applicationId} {
+      allow get: if isSignedIn() && isValidId(applicationId) && (
+        resource.data.ownerUid == request.auth.uid ||
+        resource.data.collectedByUid == request.auth.uid ||
+        resource.data.assignedOperatorId == request.auth.uid ||
+        isManagerOrAdmin()
+      );
+      allow list: if false;
+      allow create: if isSignedIn() && isValidId(applicationId) && isValidTrackingRecord(incoming()) && (
+        incoming().ownerUid == request.auth.uid ||
+        incoming().collectedByUid == request.auth.uid ||
+        isManagerOrAdmin()
+      );
+      allow update: if isSignedIn() && isValidId(applicationId) && isValidTrackingRecord(incoming()) && (
+        (isManagerOrAdmin() && incoming().ownerUid == existing().ownerUid) ||
+        (
+          (existing().assignedOperatorId == request.auth.uid || existing().collectedByUid == request.auth.uid) &&
+          incoming().ownerUid == existing().ownerUid &&
+          incoming().totalAmount == existing().totalAmount &&
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'status', 'customerRemarks', 'completionFileName', 'statusHistory', 'updatedAt'
+          ])
+        ) ||
+        (
+          existing().ownerUid == request.auth.uid &&
+          incoming().ownerUid == existing().ownerUid &&
+          incoming().totalAmount == existing().totalAmount &&
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'status', 'customerRemarks', 'statusHistory', 'updatedAt'
+          ])
+        )
+      );
+      allow delete: if isAdmin() && isValidId(applicationId);
+    }
+
+    // 5. Operator Enrollment & KYC
+    match /operator_enrollments/{enrollmentId} {
+      allow get: if isSignedIn() && isValidId(enrollmentId) && (
+        resource.data.userId == request.auth.uid || isManagerOrAdmin()
+      );
+      allow list: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isVerifiedAdminEmail()
+      );
+      allow create: if isSignedIn() && isValidId(enrollmentId) &&
+                       isValidOperatorEnrollment(incoming()) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().kycStatus == 'KYC Submitted';
+      allow update: if isSignedIn() && isValidId(enrollmentId) &&
+                       isValidOperatorEnrollment(incoming()) && (
+        isAdmin() ||
+        (resource.data.userId == request.auth.uid &&
+         incoming().userId == existing().userId &&
+         existing().kycStatus in ['KYC Submitted', 'Resubmission Required'] &&
+         incoming().kycStatus == 'KYC Submitted')
+      );
+      allow delete: if isAdmin() && isValidId(enrollmentId);
+    }
+
+    // 6. Partners Collection (Strict self-isolation, Admin-only approval)
+    match /partners/{partnerId} {
+      allow get: if isSignedIn() && isValidId(partnerId) && (
+        resource.data.userId == request.auth.uid || isManagerOrAdmin()
+      );
+      allow list: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isVerifiedAdminEmail()
+      );
+      allow create: if isSignedIn() && isValidId(partnerId) &&
+                       isValidPartner(incoming()) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().approvalStatus == 'Pending Approval';
+      allow update: if isSignedIn() && isValidId(partnerId) &&
+                       isValidPartner(incoming()) && (
+        isAdmin() ||
+        (resource.data.userId == request.auth.uid &&
+         incoming().userId == existing().userId &&
+         incoming().approvalStatus == existing().approvalStatus &&
+         incoming().partnerCode == existing().partnerCode &&
+         incoming().referralCode == existing().referralCode)
+      );
+      allow delete: if isAdmin() && isValidId(partnerId);
+    }
+
+    // 7. Partner Commission Ledger (Read scoped to owning partner or Admin; Admin-only writes)
+    match /commission_ledger/{entryId} {
+      allow get: if isSignedIn() && isValidId(entryId) && (
+        resource.data.partnerId == request.auth.uid ||
+        resource.data.partnerUid == request.auth.uid ||
+        isAdmin()
+      );
+      allow list: if isSignedIn() && (
+        resource.data.partnerId == request.auth.uid ||
+        resource.data.partnerUid == request.auth.uid ||
+        isVerifiedAdminEmail()
+      );
+      allow create, update: if isAdmin() && isValidId(entryId) && isValidCommissionEntry(incoming());
+      allow delete: if isAdmin() && isValidId(entryId);
+    }
+
+    // 8. Settlement Requests (Partners can read/create own requests, NEVER approve/pay own settlements)
+    match /settlement_requests/{requestId} {
+      allow get: if isSignedIn() && isValidId(requestId) && (
+        isAdmin() ||
+        resource.data.partnerId == request.auth.uid ||
+        resource.data.partnerUid == request.auth.uid
+      );
+      allow list: if isSignedIn() && (
+        resource.data.partnerId == request.auth.uid ||
+        resource.data.partnerUid == request.auth.uid ||
+        isVerifiedAdminEmail()
+      );
+      allow create: if isSignedIn() && isValidId(requestId) &&
+                       isValidSettlementRequest(incoming()) &&
+                       incoming().status == 'Requested' &&
+                       (incoming().partnerId == request.auth.uid || incoming().partnerUid == request.auth.uid);
+      allow update: if isAdmin() && isValidId(requestId) && isValidSettlementRequest(incoming());
+      allow delete: if isAdmin() && isValidId(requestId);
+    }
+
+    // 9. Google Workspace Audits Collection
+    match /workspace_audits/{auditId} {
+      allow get: if isSignedIn() && isValidId(auditId) && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isVerifiedAdminEmail());
+      allow create: if isSignedIn() && isValidId(auditId) &&
+                       incoming().userId == request.auth.uid && isValidWorkspaceAudit(incoming());
+      allow update, delete: if false;
+    }
+
+    // 10. Business & RBAC Settings (Explicit doc reads for signed-in users, Admin writable)
+    match /business_settings/{settingId} {
+      allow get: if isSignedIn() && settingId in ['default', 'rbac_matrix'];
+      allow list: if isVerifiedAdminEmail();
+      allow write: if isAdmin() && isValidId(settingId);
+    }
+
+    // 11. Connection Probe
+    match /test/connection {
+      allow get: if isSignedIn();
+      allow list, write: if false;
+    }
+
+    // 12. SEO Blog Posts (Public read for published articles, Admin/Manager editorial write)
+    match /blog_posts/{postId} {
+      allow get: if isValidId(postId) && (resource.data.status == 'published' || isManagerOrAdmin());
+      allow list: if resource.data.status == 'published' || isVerifiedAdminEmail();
+      allow create: if isManagerOrAdmin() && isValidId(postId) && isValidBlogPost(incoming());
+      allow update: if isManagerOrAdmin() && isValidId(postId) && isValidBlogPost(incoming());
+      allow delete: if isAdmin() && isValidId(postId);
+    }
+
+    // 13. API Sathi Verification Audits (Immutable masked PII log + call_id + user intent)
+    function isValidApiSathiVerification(data) {
+      return data.keys().hasAll([
+               'id', 'userId', 'intent', 'productSlug', 'idempotencyKey',
+               'environment', 'verified', 'outcome', 'createdAt'
+             ]) &&
+             data.keys().hasOnly([
+               'id', 'userId', 'intent', 'productSlug', 'callId', 'idempotencyKey',
+               'environment', 'isSandboxTest', 'httpStatus', 'verified', 'outcome',
+               'errorCode', 'errorMessage', 'maskedRequestJson', 'maskedResponseJson',
+               'latencyMs', 'createdAt'
+             ]) &&
+             data.id is string && data.id.size() > 0 && data.id.size() <= 80 &&
+             data.userId is string && data.userId.size() > 0 && data.userId.size() <= 128 &&
+             data.intent is string && data.intent.size() > 0 && data.intent.size() <= 80 &&
+             data.productSlug is string && data.productSlug.size() > 0 && data.productSlug.size() <= 80 &&
+             data.idempotencyKey is string && data.idempotencyKey.size() > 0 && data.idempotencyKey.size() <= 80 &&
+             data.environment in ['SANDBOX', 'PRODUCTION'] &&
+             data.verified is bool &&
+             data.outcome in ['VERIFIED', 'NOT_VERIFIED', 'WALLET_EMPTY', 'RATE_LIMITED', 'UPSTREAM_ERROR', 'ERROR', 'STEP1_INITIATED'] &&
+             data.createdAt is string && data.createdAt.size() > 0 && data.createdAt.size() <= 50 &&
+             (!('callId' in data) || (data.callId is string && data.callId.size() <= 128)) &&
+             (!('isSandboxTest' in data) || data.isSandboxTest is bool) &&
+             (!('httpStatus' in data) || (data.httpStatus is number && data.httpStatus >= 0 && data.httpStatus <= 599)) &&
+             (!('errorCode' in data) || (data.errorCode is string && data.errorCode.size() <= 80)) &&
+             (!('errorMessage' in data) || (data.errorMessage is string && data.errorMessage.size() <= 500)) &&
+             (!('maskedRequestJson' in data) || (data.maskedRequestJson is string && data.maskedRequestJson.size() <= 1500)) &&
+             (!('maskedResponseJson' in data) || (data.maskedResponseJson is string && data.maskedResponseJson.size() <= 2000)) &&
+             (!('latencyMs' in data) || (data.latencyMs is number && data.latencyMs >= 0));
+    }
+
+    match /api_sathi_verifications/{verificationId} {
+      allow get: if isSignedIn() && isValidId(verificationId) && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow list: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isVerifiedAdminEmail()
+      );
+      allow create: if isSignedIn() && isValidId(verificationId) &&
+                       isValidApiSathiVerification(incoming()) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().id == verificationId;
+      allow update, delete: if false;
+    }
+  }
+}

@@ -1,0 +1,333 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile, role, RBAC overrides, and KYC/Partner linkage record in Digital India Project",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "mobile": { "type": "string", "maxLength": 25 },
+        "role": { "type": "string", "enum": ["customer", "operator", "manager", "partner", "admin", "business"] },
+        "accountType": { "type": "string", "enum": ["customer", "business", "operator", "partner", "manager", "admin"] },
+        "companyName": { "type": "string", "maxLength": 140 },
+        "businessId": { "type": "string", "maxLength": 64 },
+        "partnerId": { "type": "string", "maxLength": 64 },
+        "referralCode": { "type": "string", "maxLength": 40 },
+        "referredByCode": { "type": "string", "maxLength": 40 },
+        "kycStatus": { "type": "string", "enum": ["Not Submitted", "KYC Submitted", "Under Verification", "Resubmission Required", "Approved", "Rejected"] },
+        "operatorEnrollmentId": { "type": "string", "maxLength": 64 },
+        "managerScope": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "ServiceProduct": {
+      "title": "ServiceProduct",
+      "description": "Dynamic service catalog, digital downloadable products, packages, SEO metadata, tax, and SLA settings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 80 },
+        "slug": { "type": "string", "maxLength": 120 },
+        "name": { "type": "string", "maxLength": 160 },
+        "nameHi": { "type": "string", "maxLength": 180 },
+        "category": { "type": "string", "maxLength": 64 },
+        "subcategory": { "type": "string", "maxLength": 80 },
+        "productType": { "type": "string", "enum": ["service", "digital_product", "api_product", "compliance_package"] },
+        "shortDesc": { "type": "string", "maxLength": 500 },
+        "fullDesc": { "type": "string", "maxLength": 4000 },
+        "iconName": { "type": "string", "maxLength": 50 },
+        "serviceCharge": { "type": "number" },
+        "govtFees": { "type": "number" },
+        "thirdPartyFees": { "type": "number" },
+        "additionalCharge": { "type": "number" },
+        "urgentFee": { "type": "number" },
+        "discountInr": { "type": "number" },
+        "taxRateBps": { "type": "number" },
+        "billingUnit": { "type": "string", "maxLength": 30 },
+        "pricingType": { "type": "string", "enum": ["fixed", "starting", "custom", "free", "commission"] },
+        "formVersion": { "type": "number" },
+        "slaHours": { "type": "number" },
+        "published": { "type": "boolean" },
+        "estimatedTime": { "type": "string", "maxLength": 100 },
+        "integrationType": { "type": "string", "enum": ["api_setu", "digilocker", "other_api", "manual_assistance", "external_portal"] },
+        "availability": { "type": "string", "enum": ["Live", "Coming Soon", "Manual", "Unavailable"] },
+        "b2bSupported": { "type": "boolean" },
+        "popular": { "type": "boolean" },
+        "featured": { "type": "boolean" },
+        "seoTitle": { "type": "string", "maxLength": 120 },
+        "seoDescription": { "type": "string", "maxLength": 240 },
+        "focusKeyword": { "type": "string", "maxLength": 100 },
+        "canonicalUrl": { "type": "string", "maxLength": 250 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "slug", "name", "category", "serviceCharge", "govtFees"]
+    },
+    "ApplicationDossier": {
+      "title": "ApplicationDossier",
+      "description": "Unified applications from Customer Self-Filing, Assisted Operator, Partner Referral, B2B Portal, or Google Forms",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "collectedByUid": { "type": "string", "maxLength": 128 },
+        "partnerId": { "type": "string", "maxLength": 64 },
+        "filingMode": { "type": "string", "enum": ["self", "assisted"] },
+        "assignedOperatorId": { "type": "string", "maxLength": 128 },
+        "assignedOperatorName": { "type": "string", "maxLength": 120 },
+        "sourceChannel": { "type": "string", "enum": ["web_b2c", "b2b_portal", "operator_assisted", "partner_assisted", "google_forms", "admin_manual"] },
+        "userName": { "type": "string", "maxLength": 120 },
+        "userEmail": { "type": "string", "maxLength": 150 },
+        "userMobile": { "type": "string", "maxLength": 30 },
+        "serviceId": { "type": "string", "maxLength": 64 },
+        "serviceName": { "type": "string", "maxLength": 140 },
+        "serviceSlug": { "type": "string", "maxLength": 100 },
+        "formVersion": { "type": "number" },
+        "status": { "type": "string", "maxLength": 60 },
+        "totalAmount": { "type": "number" },
+        "customerRemarks": { "type": "string", "maxLength": 1000 },
+        "internalNotes": { "type": "string", "maxLength": 1000 },
+        "completionFileName": { "type": "string", "maxLength": 160 },
+        "submissionDate": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "serviceId", "status"]
+    },
+    "PublicTrackingRecord": {
+      "title": "PublicTrackingRecord",
+      "description": "PII-isolated status projection for exact Application ID tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "ownerUid": { "type": "string", "maxLength": 128 },
+        "serviceName": { "type": "string", "maxLength": 140 },
+        "applicantMaskedName": { "type": "string", "maxLength": 80 },
+        "contactMobileDigits": { "type": "string", "maxLength": 15 },
+        "contactEmailLower": { "type": "string", "maxLength": 150 },
+        "sourceChannel": { "type": "string", "maxLength": 40 },
+        "status": { "type": "string", "maxLength": 60 },
+        "customerRemarks": { "type": "string", "maxLength": 1000 },
+        "completionFileName": { "type": "string", "maxLength": 160 },
+        "totalAmount": { "type": "number" },
+        "submissionDate": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "ownerUid", "serviceName", "status"]
+    },
+    "OperatorEnrollment": {
+      "title": "OperatorEnrollment",
+      "description": "Operator onboarding dossier and KYC verification records",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "fullName": { "type": "string", "maxLength": 120 },
+        "email": { "type": "string", "maxLength": 150 },
+        "mobile": { "type": "string", "maxLength": 25 },
+        "centerName": { "type": "string", "maxLength": 140 },
+        "operatingState": { "type": "string", "maxLength": 80 },
+        "operatingDistrict": { "type": "string", "maxLength": 80 },
+        "centerAddress": { "type": "string", "maxLength": 300 },
+        "pincode": { "type": "string", "maxLength": 12 },
+        "panNumber": { "type": "string", "maxLength": 12 },
+        "maskedAadhaar": { "type": "string", "maxLength": 25 },
+        "bankAccountHolder": { "type": "string", "maxLength": 120 },
+        "bankIfsc": { "type": "string", "maxLength": 15 },
+        "maskedBankAccount": { "type": "string", "maxLength": 30 },
+        "kycStatus": { "type": "string", "enum": ["KYC Submitted", "Under Verification", "Resubmission Required", "Approved", "Rejected"] },
+        "adminRemarks": { "type": "string", "maxLength": 600 },
+        "reviewedBy": { "type": "string", "maxLength": 120 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "fullName", "email", "mobile", "panNumber", "kycStatus"]
+    },
+    "PartnerRecord": {
+      "title": "PartnerRecord",
+      "description": "Approved or pending partner/agent onboarding & referral profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "partnerCode": { "type": "string", "maxLength": 40 },
+        "referralCode": { "type": "string", "maxLength": 40 },
+        "partnerType": { "type": "string", "maxLength": 60 },
+        "fullName": { "type": "string", "maxLength": 120 },
+        "businessName": { "type": "string", "maxLength": 140 },
+        "email": { "type": "string", "maxLength": 150 },
+        "mobile": { "type": "string", "maxLength": 25 },
+        "state": { "type": "string", "maxLength": 80 },
+        "district": { "type": "string", "maxLength": 80 },
+        "pincode": { "type": "string", "maxLength": 12 },
+        "panMasked": { "type": "string", "maxLength": 20 },
+        "bankIfsc": { "type": "string", "maxLength": 15 },
+        "bankAccountMasked": { "type": "string", "maxLength": 30 },
+        "approvalStatus": { "type": "string", "enum": ["Pending Approval", "Approved", "Suspended", "Rejected"] },
+        "minSettlementInr": { "type": "number" },
+        "totalReferrals": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "partnerCode", "referralCode", "businessName", "approvalStatus"]
+    },
+    "CommissionEntry": {
+      "title": "CommissionEntry",
+      "description": "Immutable partner commission ledger entries",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "partnerId": { "type": "string", "maxLength": 64 },
+        "partnerUid": { "type": "string", "maxLength": 128 },
+        "applicationId": { "type": "string", "maxLength": 64 },
+        "serviceName": { "type": "string", "maxLength": 160 },
+        "entryType": { "type": "string", "enum": ["EARNED", "REVERSAL", "SETTLED"] },
+        "grossServiceFeePaise": { "type": "number" },
+        "commissionPaise": { "type": "number" },
+        "tdsPaise": { "type": "number" },
+        "netPaise": { "type": "number" },
+        "status": { "type": "string", "enum": ["Pending", "Approved", "Settled", "Reversed"] },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "partnerId", "applicationId", "netPaise", "status"]
+    },
+    "SettlementRequest": {
+      "title": "SettlementRequest",
+      "description": "Partner payout request approved strictly by Super Admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "partnerId": { "type": "string", "maxLength": 64 },
+        "partnerUid": { "type": "string", "maxLength": 128 },
+        "partnerName": { "type": "string", "maxLength": 140 },
+        "requestedPaise": { "type": "number" },
+        "status": { "type": "string", "enum": ["Requested", "Under Review", "Approved", "Paid", "Rejected"] },
+        "payoutReference": { "type": "string", "maxLength": 120 },
+        "adminRemarks": { "type": "string", "maxLength": 500 },
+        "requestedAt": { "type": "string", "maxLength": 50 },
+        "processedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "partnerId", "requestedPaise", "status"]
+    },
+    "WorkspaceAudit": {
+      "title": "WorkspaceAudit",
+      "description": "Audit record of Google Workspace interactions (Drive, Gmail, Forms, Tasks)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "actionType": { "type": "string", "maxLength": 50 },
+        "targetService": { "type": "string", "enum": ["drive", "gmail", "forms", "tasks"] },
+        "details": { "type": "string", "maxLength": 500 },
+        "timestamp": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "actionType", "targetService", "timestamp"]
+    },
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "SEO-optimized editorial guide, article, and FAQ entry published on Digital India Project",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "slug": { "type": "string", "maxLength": 110 },
+        "title": { "type": "string", "maxLength": 180 },
+        "titleHi": { "type": "string", "maxLength": 200 },
+        "excerpt": { "type": "string", "maxLength": 400 },
+        "excerptHi": { "type": "string", "maxLength": 420 },
+        "content": { "type": "string", "maxLength": 20000 },
+        "contentHi": { "type": "string", "maxLength": 20000 },
+        "category": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "enum": ["published", "draft", "archived"] },
+        "featured": { "type": "boolean" },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorRole": { "type": "string", "maxLength": 100 },
+        "publishedAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 },
+        "readingTimeMinutes": { "type": "number" },
+        "relatedServiceSlug": { "type": "string", "maxLength": 100 },
+        "seoTitle": { "type": "string", "maxLength": 110 },
+        "seoDescription": { "type": "string", "maxLength": 200 },
+        "focusKeyword": { "type": "string", "maxLength": 100 },
+        "canonicalUrl": { "type": "string", "maxLength": 250 },
+        "featuredImageUrl": { "type": "string", "maxLength": 500 },
+        "featuredImageKey": { "type": "string", "maxLength": 250 }
+      },
+      "required": ["id", "slug", "title", "excerpt", "content", "category", "status", "authorName", "publishedAt", "updatedAt", "readingTimeMinutes"]
+    },
+    "ApiSathiVerification": {
+      "title": "ApiSathiVerification",
+      "description": "Server-logged API Sathi KYC/KYB verification audit record with masked PII, call_id, and user intent",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 80 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "intent": { "type": "string", "maxLength": 80 },
+        "productSlug": { "type": "string", "maxLength": 80 },
+        "callId": { "type": "string", "maxLength": 128 },
+        "idempotencyKey": { "type": "string", "maxLength": 80 },
+        "environment": { "type": "string", "enum": ["SANDBOX", "PRODUCTION"] },
+        "isSandboxTest": { "type": "boolean" },
+        "httpStatus": { "type": "number" },
+        "verified": { "type": "boolean" },
+        "outcome": { "type": "string", "enum": ["VERIFIED", "NOT_VERIFIED", "WALLET_EMPTY", "RATE_LIMITED", "UPSTREAM_ERROR", "ERROR", "STEP1_INITIATED"] },
+        "errorCode": { "type": "string", "maxLength": 80 },
+        "errorMessage": { "type": "string", "maxLength": 500 },
+        "maskedRequestJson": { "type": "string", "maxLength": 1500 },
+        "maskedResponseJson": { "type": "string", "maxLength": 2000 },
+        "latencyMs": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "intent", "productSlug", "idempotencyKey", "environment", "verified", "outcome", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles, account types, and RBAC roles"
+    },
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/ServiceProduct" },
+      "description": "Dynamic catalog of digital services, API products, and registration packages"
+    },
+    "/applications/{applicationId}": {
+      "schema": { "$ref": "#/entities/ApplicationDossier" },
+      "description": "Unified applications collected from B2C, B2B, Operator Desk, Partner Referral, and Google Forms"
+    },
+    "/tracking_records/{applicationId}": {
+      "schema": { "$ref": "#/entities/PublicTrackingRecord" },
+      "description": "Exact-ID status tracking projection isolated from full dossier PII"
+    },
+    "/operator_enrollments/{enrollmentId}": {
+      "schema": { "$ref": "#/entities/OperatorEnrollment" },
+      "description": "Operator partner enrollment and KYC verification submissions"
+    },
+    "/partners/{partnerId}": {
+      "schema": { "$ref": "#/entities/PartnerRecord" },
+      "description": "Authorized referral partners and assisted filing centers"
+    },
+    "/commission_ledger/{entryId}": {
+      "schema": { "$ref": "#/entities/CommissionEntry" },
+      "description": "Auditable partner commission ledger entries"
+    },
+    "/settlement_requests/{requestId}": {
+      "schema": { "$ref": "#/entities/SettlementRequest" },
+      "description": "Partner settlement payout requests reviewed by Super Admin"
+    },
+    "/workspace_audits/{auditId}": {
+      "schema": { "$ref": "#/entities/WorkspaceAudit" },
+      "description": "Immutable audits of Google Workspace operations"
+    },
+    "/blog_posts/{postId}": {
+      "schema": { "$ref": "#/entities/BlogPost" },
+      "description": "Published and draft SEO blog articles for citizen and business guides"
+    },
+    "/api_sathi_verifications/{verificationId}": {
+      "schema": { "$ref": "#/entities/ApiSathiVerification" },
+      "description": "Masked KYC/KYB verification logs storing API Sathi call_id, outcome, and user intent"
+    }
+  }
+}

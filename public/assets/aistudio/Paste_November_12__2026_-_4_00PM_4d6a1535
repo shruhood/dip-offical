@@ -1,0 +1,1461 @@
+# DIGITAL INDIA PROJECT — COMPLETE WEBSITE & WEB APPLICATION DEVELOPMENT
+
+## ROLE AND OBJECTIVE
+
+Act as an expert full-stack software architect, senior UI/UX designer, SaaS product developer, database engineer, security engineer and DevOps specialist.
+
+Your task is to design and develop a complete, modern, production-ready digital services platform for:
+
+**Business Name:** Digital India Project  
+**Domain:** https://digitalindiaproject.com  
+**Business Type:** Private Digital Services & Online Registration Assistance Company  
+**Primary Market:** India  
+**Languages:** English and Hindi  
+**Primary Goal:** Enable customers to discover digital services, apply online, upload documents, make payments, receive professional assistance and track their applications.
+
+Build an actual functional web application, not merely a landing page or static UI prototype.
+
+The platform should combine:
+- A modern digital services marketplace.
+- An online application system.
+- A customer account portal.
+- An application tracking system.
+- A secure document management system.
+- An online payment system.
+- An administrative management system.
+- An AI-powered customer assistance system.
+
+The overall experience should resemble a premium fintech/SaaS platform adapted for Indian digital services.
+
+---
+
+# 1. BUSINESS POSITIONING
+
+Digital India Project is a privately operated digital services company that assists individuals, professionals and businesses with online applications, government registrations, documentation and digital services.
+
+Important business positioning:
+
+- We are a private company.
+- We provide assistance with various government and business registrations.
+- We help customers complete online application processes.
+- We provide documentation and digital application assistance.
+- We are not a government department.
+- We are not a government-owned portal.
+- We do not represent ourselves as an official government authority.
+- We are not a printing or photocopying shop.
+
+Use clear, professional and transparent business language.
+
+Never use:
+- Ashoka Chakra.
+- Government seals.
+- Government department logos.
+- Official government emblems.
+- Fake government approval badges.
+- Misleading government portal branding.
+
+---
+
+# 2. BRAND IDENTITY AND COLOUR SYSTEM
+
+Create a unique Indian-inspired visual identity.
+
+The brand must use a combination of:
+
+- Indian Saffron Orange.
+- Vibrant Yellow.
+- India Green.
+- Indian Red.
+- White.
+- Dark Charcoal.
+
+### Official colour palette
+
+Primary Saffron Orange:
+#FF671F
+
+Secondary Orange:
+#F97316
+
+Indian Yellow:
+#FFC928
+
+India Green:
+#138808
+
+Indian Red:
+#E53935
+
+White:
+#FFFFFF
+
+Off-white:
+#FFFDF8
+
+Light Background:
+#F7F8FA
+
+Dark Charcoal:
+#202124
+
+Secondary Text:
+#64748B
+
+Border:
+#E5E7EB
+
+### Colour usage rules
+
+Saffron Orange:
+- Primary brand colour.
+- Main Apply Now buttons.
+- Primary actions.
+- Hero section highlights.
+- Important navigation elements.
+
+Yellow:
+- Secondary highlights.
+- Featured service cards.
+- Promotional sections.
+- Decorative elements.
+- Important informational indicators.
+
+Green:
+- Successful payments.
+- Completed applications.
+- Verified documents.
+- Success messages.
+- Positive progress indicators.
+
+Red:
+- Error messages.
+- Rejected applications.
+- Important warnings.
+- Failed payments.
+- Destructive actions.
+
+White:
+- Main backgrounds.
+- Cards.
+- Application forms.
+- Dashboard surfaces.
+
+Dark Charcoal:
+- Headlines.
+- Body text.
+- Navigation text.
+
+### Design guidelines
+
+Do not make every section brightly coloured.
+
+Use white and off-white as the main backgrounds. Use orange as the main brand accent, yellow for highlights, green for success and red for alerts.
+
+Create a subtle Indian-inspired tricolour decorative element in selected sections.
+
+Use tasteful gradients only where appropriate.
+
+Maintain excellent readability and WCAG-friendly colour contrast.
+
+### Typography
+
+English: Inter.
+
+Hindi: Noto Sans Devanagari.
+
+Use clear headings, professional body text and consistent typography scales.
+
+### Logo concept
+
+Create an original, minimal digital connectivity logo.
+
+The logo may combine:
+- Digital connection nodes.
+- Abstract globe.
+- Modern D/P monogram.
+- Connected geometric shapes.
+
+Use the brand colours.
+
+Do not use Ashoka Chakra or official government symbols.
+
+---
+
+# 3. COMPLETE APPLICATION STRUCTURE
+
+Build the following modules:
+
+A. Public Website  
+B. Service Marketplace  
+C. Customer Authentication  
+D. Customer Dashboard  
+E. Dynamic Application System  
+F. Document Management  
+G. Application Tracking  
+H. Payment Management  
+I. Customer Support  
+J. AI Assistant  
+K. Admin Dashboard  
+L. Operator Dashboard  
+M. Super Admin Settings  
+N. Notification System  
+O. Reports and Analytics  
+
+Every module should have a clear architecture and appropriate access permissions.
+
+---
+
+# 4. PUBLIC WEBSITE
+
+Create the following public pages:
+
+- Home
+- About Us
+- All Services
+- Service Categories
+- Individual Service Details
+- Track Application
+- Contact Us
+- Help Centre
+- FAQs
+- Privacy Policy
+- Terms and Conditions
+- Refund and Cancellation Policy
+- Disclaimer
+- Grievance Redressal
+- Login
+- Register
+
+Create a premium responsive header.
+
+### Header
+
+Left:
+Digital India Project logo.
+
+Navigation:
+- Home
+- Services
+- Business Services
+- Personal Services
+- About
+- Contact
+
+Right:
+- English / हिंदी.
+- Login.
+- Register.
+- Apply Now.
+
+On mobile, use a responsive hamburger navigation and an easily accessible Apply Now action.
+
+---
+
+# 5. HOMEPAGE
+
+Create a premium homepage with a distinctive Indian colour identity.
+
+### Section 1: Hero
+
+Headline:
+
+"Your Digital Services, Simplified."
+
+Alternative supporting text:
+
+"Your Trusted Partner for Digital Applications & Registration Assistance."
+
+Description:
+
+"Access essential digital services, complete online applications and get professional assistance — all from one convenient platform."
+
+Primary CTA:
+Explore Services.
+
+Secondary CTA:
+Track Application.
+
+Third action:
+Apply Now.
+
+Add a modern hero illustration featuring:
+- Digital documents.
+- Online application interface.
+- Smartphone.
+- Secure cloud.
+- Application status timeline.
+
+Use orange, yellow and green visual accents.
+
+### Section 2: Quick Search
+
+Create a prominent service search field.
+
+Placeholder:
+"What service are you looking for?"
+
+Support:
+- Service name.
+- Category.
+- Keywords.
+- Registration type.
+
+Display search suggestions dynamically.
+
+### Section 3: Quick Access
+
+Create four attractive quick-access cards:
+
+- Browse Services.
+- Apply Online.
+- Track Application.
+- Get Assistance.
+
+### Section 4: Popular Services
+
+Create dynamic service cards for:
+
+1. PAN Card Services.
+2. PAN Correction.
+3. Aadhaar Assistance.
+4. GST Registration.
+5. Udyam Registration.
+6. FSSAI Registration.
+7. Digital Signature Certificate.
+8. MSME Services.
+9. D-U-N-S Registration.
+10. Gazette Name Change Assistance.
+11. Business Registration Assistance.
+12. DigiLocker Assistance.
+13. Income Tax Return Assistance.
+14. Trade Licence Assistance.
+15. Professional Tax Assistance.
+16. Other Online Registrations.
+
+Each card must contain:
+
+- Icon.
+- Service name.
+- Short description.
+- Category.
+- Starting price or Get a Quote.
+- Estimated processing information.
+- View Details.
+- Apply Now.
+
+Do not invent official fees or guaranteed processing times.
+
+Services must be dynamically managed through the admin panel.
+
+### Section 5: Browse by Categories
+
+Create visually attractive category cards:
+
+- Personal Services.
+- PAN & Identity Services.
+- Business Registrations.
+- Taxation & Compliance.
+- Government Registration Assistance.
+- Digital Certificates.
+- Documentation Services.
+- Professional Services.
+
+Use distinct orange, yellow, green and red icon accents.
+
+### Section 6: How It Works
+
+Four-step process:
+
+01 — Choose Your Service.
+
+02 — Submit Application & Documents.
+
+03 — Complete Payment.
+
+04 — Track Application & Receive Updates.
+
+### Section 7: Why Digital India Project?
+
+Display:
+
+- Convenient Online Applications.
+- Professional Assistance.
+- Secure Document Management.
+- Transparent Service Charges.
+- Application Tracking.
+- Customer Support.
+- Multilingual Assistance.
+
+### Section 8: Application Tracking
+
+Create an interactive tracking card.
+
+Fields:
+- Application ID.
+- Registered mobile number or email.
+
+Button:
+Track Application.
+
+After successful verification, show:
+- Service name.
+- Application ID.
+- Submission date.
+- Current status.
+- Payment status.
+- Progress timeline.
+- Latest remarks.
+- Required actions.
+
+Never reveal private application information without authentication or proper verification.
+
+### Section 9: Customer Testimonials
+
+Create a professional testimonial section.
+
+Use clearly labelled demonstration content until real customer reviews are available.
+
+### Section 10: FAQ
+
+Add dynamic frequently asked questions.
+
+### Section 11: CTA Banner
+
+Headline:
+"Ready to Get Started?"
+
+Description:
+"Find the service you need and submit your application online."
+
+Buttons:
+Explore Services | Contact Support.
+
+### Section 12: Footer
+
+Include:
+- Company overview.
+- Services.
+- Quick links.
+- Customer support.
+- Business email.
+- WhatsApp.
+- Social media.
+- Legal policies.
+- Privacy information.
+- Private business disclaimer.
+
+---
+
+# 6. SERVICE MARKETPLACE
+
+Create a complete service listing system.
+
+Route:
+/services
+
+Features:
+- Search services.
+- Filter by category.
+- Filter by price.
+- Sort alphabetically.
+- Sort by popularity.
+- Featured services.
+- Recently added services.
+- Pagination or load more.
+- Mobile filter drawer.
+
+Every service must have a unique SEO-friendly URL.
+
+Example:
+
+/services/pan-card
+/services/gst-registration
+/services/udyam-registration
+/services/fssai-registration
+/services/duns-registration
+/services/gazette-name-change
+
+### Individual service details page
+
+Every service page must include:
+
+1. Service title.
+2. Service overview.
+3. Eligibility requirements.
+4. Required documents.
+5. Application process.
+6. Estimated processing time.
+7. Our service charge.
+8. Applicable government fees.
+9. Important instructions.
+10. Frequently asked questions.
+11. Related services.
+12. Apply Now.
+
+Clearly distinguish our professional service fees from official government charges.
+
+---
+
+# 7. DYNAMIC APPLICATION FORM BUILDER
+
+This is one of the most important modules.
+
+Create a flexible application form builder.
+
+Each service should have a different application form.
+
+Support:
+- Text input.
+- Number input.
+- Email.
+- Mobile number.
+- Date picker.
+- Dropdown.
+- Radio buttons.
+- Checkboxes.
+- Address fields.
+- File upload.
+- Multiple file upload.
+- Conditional fields.
+- Required and optional fields.
+- Field validation.
+- Help text.
+- Consent checkbox.
+
+Admin should be able to create and edit application forms without modifying code.
+
+### Customer application workflow
+
+Step 1: Select Service.
+
+Step 2: Read Instructions.
+
+Step 3: Enter Applicant Details.
+
+Step 4: Upload Required Documents.
+
+Step 5: Review Information.
+
+Step 6: Accept Consent and Declaration.
+
+Step 7: Complete Payment.
+
+Step 8: Submit Application.
+
+Step 9: Generate Unique Application ID.
+
+Step 10: Display Confirmation.
+
+Allow customers to:
+- Save drafts.
+- Continue later.
+- Edit drafts.
+- View submitted applications.
+- Upload additional documents when requested.
+
+Prevent duplicate submissions where appropriate.
+
+---
+
+# 8. CUSTOMER AUTHENTICATION
+
+Create secure customer authentication.
+
+Features:
+- Registration.
+- Login.
+- Logout.
+- Email verification.
+- Forgot password.
+- Password reset.
+- Mobile OTP verification through an authorized provider.
+- Session management.
+
+Customer registration fields:
+- Full name.
+- Email.
+- Mobile number.
+- Password.
+- Password confirmation.
+- Privacy consent.
+
+Implement secure authentication using server-side sessions or a properly configured authentication provider.
+
+Never use fake frontend-only login for production.
+
+---
+
+# 9. CUSTOMER DASHBOARD
+
+Create a premium customer portal.
+
+Route:
+/dashboard
+
+Dashboard sidebar:
+
+- Overview.
+- My Applications.
+- New Application.
+- My Documents.
+- Payments.
+- Invoices.
+- Notifications.
+- Support Tickets.
+- My Profile.
+- Security Settings.
+- Logout.
+
+### Dashboard overview
+
+Show:
+
+- Total Applications.
+- Pending Applications.
+- In Progress.
+- Documents Required.
+- Completed Applications.
+
+Use coloured statistics cards.
+
+Orange: Total Applications.
+
+Yellow: Pending.
+
+Green: Completed.
+
+Red: Attention Required.
+
+### My Applications
+
+Table or responsive cards showing:
+
+- Application ID.
+- Service Name.
+- Date.
+- Status.
+- Payment.
+- Action.
+
+Filters:
+- All.
+- Submitted.
+- Pending.
+- In Progress.
+- Documents Required.
+- Completed.
+- Rejected.
+- Cancelled.
+
+### Application Details
+
+Display:
+
+- Application information.
+- Submitted documents.
+- Payment details.
+- Application status.
+- Progress timeline.
+- Operator remarks.
+- Customer-visible comments.
+- Downloadable documents.
+- Support action.
+
+### My Documents
+
+Provide a secure document vault.
+
+Features:
+- Upload.
+- View permitted documents.
+- Download.
+- Delete where permitted.
+- Document categorisation.
+- Upload date.
+- Associated application.
+
+### Payments
+
+Display:
+- Transaction ID.
+- Application ID.
+- Payment amount.
+- Payment method.
+- Payment date.
+- Payment status.
+- Receipt download.
+
+---
+
+# 10. APPLICATION TRACKING ENGINE
+
+Implement a proper application status management engine.
+
+Possible statuses:
+
+- Draft.
+- Submitted.
+- Awaiting Payment.
+- Payment Confirmed.
+- Under Review.
+- Document Verification.
+- Documents Required.
+- Application Processing.
+- Submitted to External Authority.
+- Awaiting External Approval.
+- Completed.
+- Rejected.
+- Cancelled.
+- Refund Initiated.
+- Refunded.
+
+Admin must be able to configure permitted status transitions.
+
+Every status change must record:
+- Previous status.
+- New status.
+- Updated by.
+- Date and time.
+- Customer-visible message.
+- Internal note.
+
+Never show internal admin notes to customers.
+
+Do not falsely claim that an application has been submitted to a government authority unless that action actually occurred.
+
+---
+
+# 11. DOCUMENT MANAGEMENT
+
+Use Cloudflare R2 for secure document storage.
+
+Requirements:
+- Private buckets.
+- Secure upload endpoints.
+- File type validation.
+- File size limits.
+- MIME verification.
+- Unique file identifiers.
+- Secure access permissions.
+- Short-lived signed download links.
+- Document metadata in D1.
+- Upload history.
+- Access audit logs.
+
+Supported formats may include:
+- PDF.
+- JPG.
+- JPEG.
+- PNG.
+
+Allow administrators to configure document requirements per service.
+
+Do not expose public document URLs.
+
+Use appropriate retention and deletion policies.
+
+---
+
+# 12. CASHFREE PAYMENT INTEGRATION
+
+Integrate Cashfree Payments.
+
+Implement:
+
+- Server-side order creation.
+- Payment session generation.
+- Checkout integration.
+- Payment confirmation.
+- Webhook verification.
+- Payment status updates.
+- Transaction history.
+- Payment receipts.
+- Refund requests.
+- Refund tracking.
+- Failed payment recovery.
+
+Payment statuses:
+
+- Initiated.
+- Pending.
+- Success.
+- Failed.
+- Refunded.
+- Partially Refunded.
+
+All payment secrets must be stored in server-side environment variables.
+
+Never trust frontend payment responses alone.
+
+Verify all successful payments through verified server-side responses and webhook signatures.
+
+Support sandbox and production environments.
+
+---
+
+# 13. ADMIN DASHBOARD
+
+Create a professional, powerful administration panel.
+
+Route:
+/admin
+
+Admin sidebar:
+
+- Dashboard.
+- Applications.
+- Services.
+- Categories.
+- Form Builder.
+- Customers.
+- Documents.
+- Payments.
+- Invoices.
+- Support Tickets.
+- Notifications.
+- Coupons.
+- Reports.
+- Website Content.
+- Settings.
+- Admin Users.
+- Activity Logs.
+
+### Admin overview
+
+Display:
+- Total Customers.
+- Total Applications.
+- New Applications.
+- Pending Applications.
+- Applications In Progress.
+- Completed Applications.
+- Total Revenue.
+- Pending Payments.
+- Refund Requests.
+
+Use charts and date filters.
+
+### Application Management
+
+Admin can:
+- Search applications.
+- Filter by date.
+- Filter by service.
+- Filter by status.
+- Open application details.
+- Review customer information.
+- Review documents.
+- Verify uploaded documents.
+- Request missing documents.
+- Assign operators.
+- Update application status.
+- Add internal notes.
+- Add customer-visible comments.
+- Upload final documents.
+- View complete application history.
+
+### Service Management
+
+Admin can:
+- Create services.
+- Edit services.
+- Delete or deactivate services.
+- Manage service categories.
+- Upload service icons and images.
+- Configure pricing.
+- Configure service forms.
+- Configure required documents.
+- Manage FAQs.
+- Configure processing estimates.
+- Set featured services.
+- Enable or disable applications.
+
+### Customer Management
+
+Admin can:
+- Search customers.
+- View customer details.
+- View application history.
+- View payment history.
+- Manage account status.
+- Respond to support queries.
+
+### Payment Management
+
+- Transaction management.
+- Payment verification.
+- Refund requests.
+- Receipt management.
+- Revenue reports.
+- Downloadable reports.
+
+### Content Management
+
+Admin can manage:
+- Homepage hero.
+- Homepage banners.
+- Service descriptions.
+- Testimonials.
+- FAQs.
+- Footer information.
+- Contact information.
+- Legal pages.
+- SEO metadata.
+
+---
+
+# 14. OPERATOR DASHBOARD
+
+Create a separate operator interface.
+
+Route:
+/operator
+
+Operators should only access applications assigned to them.
+
+Features:
+- Assigned applications.
+- Application details.
+- Document verification.
+- Request missing documents.
+- Add processing remarks.
+- Update permitted statuses.
+- Upload completion documents.
+- Communicate with customers.
+
+Operators must not access:
+- Payment secrets.
+- Super admin settings.
+- Other operators' restricted data.
+- Sensitive business configuration.
+
+All activities must be logged.
+
+---
+
+# 15. SUPER ADMIN SETTINGS
+
+Create a restricted super admin area.
+
+Manage:
+
+- Company profile.
+- Business name.
+- Business address.
+- GSTIN.
+- Contact numbers.
+- Business email.
+- Logo.
+- Website settings.
+- Payment configuration.
+- Email configuration.
+- API credentials.
+- User roles.
+- Permissions.
+- Operator accounts.
+- Notification settings.
+- Storage settings.
+- Security configuration.
+- Maintenance mode.
+
+Keep sensitive configuration server-side.
+
+Never hardcode private business information into frontend source files or public repositories.
+
+---
+
+# 16. EMAIL, SMS AND WHATSAPP NOTIFICATIONS
+
+Create a notification engine.
+
+Events:
+- Customer registration.
+- Email verification.
+- Application submitted.
+- Payment received.
+- Documents verified.
+- Additional documents required.
+- Application status updated.
+- Application completed.
+- Refund initiated.
+- Support ticket created.
+- Support ticket replied.
+
+Support configurable providers for:
+
+- Email.
+- SMS.
+- WhatsApp Business API.
+- In-app notifications.
+
+Business email addresses:
+
+hello@digitalindiaproject.com
+
+support@digitalindiaproject.com
+
+applications@digitalindiaproject.com
+
+accounts@digitalindiaproject.com
+
+Use reusable email templates.
+
+Do not claim messages were sent if provider configuration is unavailable.
+
+---
+
+# 17. GEMINI AI CUSTOMER ASSISTANT
+
+Integrate Gemini API through secure backend endpoints.
+
+Create an attractive floating AI assistant.
+
+Name:
+Digital India Assistant.
+
+Functions:
+- Explain services.
+- Recommend relevant services.
+- Explain eligibility.
+- Explain required documents.
+- Guide customers through applications.
+- Answer common questions.
+- Explain payment procedures.
+- Help customers understand application status.
+- Create support requests.
+- Escalate to human assistance.
+
+Support Hindi and English.
+
+Use approved service knowledge-base data.
+
+Never invent government rules, official fees, processing times or approval guarantees.
+
+Never request passwords, OTPs, banking PINs or card credentials.
+
+AI API keys must never be exposed in frontend code.
+
+---
+
+# 18. SEARCH AND KNOWLEDGE BASE
+
+Build a searchable service knowledge base.
+
+Allow administrators to add:
+- Service descriptions.
+- FAQs.
+- Instructions.
+- Eligibility details.
+- Required documents.
+- Important notices.
+- Help articles.
+
+The website search and AI assistant should use this approved content.
+
+Support English and Hindi content.
+
+---
+
+# 19. DATABASE ARCHITECTURE
+
+Use Cloudflare D1.
+
+Create database migrations for:
+
+1. users
+2. roles
+3. permissions
+4. user_roles
+5. services
+6. service_categories
+7. service_forms
+8. form_fields
+9. applications
+10. application_documents
+11. application_status_history
+12. payments
+13. invoices
+14. notifications
+15. notification_templates
+16. support_tickets
+17. support_messages
+18. admin_activity_logs
+19. website_settings
+20. faqs
+21. knowledge_base
+22. coupons
+23. refunds
+24. user_sessions
+25. audit_events
+
+Create:
+- Primary keys.
+- Foreign keys.
+- Appropriate indexes.
+- Unique constraints.
+- Timestamps.
+- Soft-delete support where appropriate.
+
+Use migrations and version control.
+
+---
+
+# 20. TECHNICAL ARCHITECTURE
+
+The preferred production architecture must be compatible with the existing Cloudflare ecosystem.
+
+### Frontend
+
+- React.
+- TypeScript.
+- Tailwind CSS.
+- Reusable UI components.
+- Accessible component patterns.
+- React Router or equivalent routing.
+- Form validation.
+- Responsive design.
+
+### Backend
+
+- Cloudflare Workers.
+- Hono framework.
+- REST API.
+- Server-side authentication.
+- Input validation.
+- Centralized error handling.
+
+### Database
+
+Cloudflare D1.
+
+### Storage
+
+Cloudflare R2.
+
+### Payments
+
+Cashfree Payments.
+
+### AI
+
+Google Gemini API.
+
+### Hosting
+
+Cloudflare Workers with custom domain:
+digitalindiaproject.com
+
+### Repository
+
+GitHub:
+digitalindiaproject/dipproject-digital-india
+
+Maintain a clean project structure.
+
+Do not introduce Firebase, Supabase or another backend platform unnecessarily.
+
+If Google AI Studio's default environment cannot directly deploy the preferred architecture, create the frontend and application modules with a clearly separated backend adapter layer, then implement the Cloudflare Worker/Hono backend as the production target.
+
+Do not silently substitute an incompatible production architecture.
+
+---
+
+# 21. SECURITY AND DATA PROTECTION
+
+Implement:
+
+- Role-based access control.
+- Secure authentication.
+- Secure session cookies.
+- Password hashing through established authentication libraries.
+- Server-side authorization.
+- Input sanitization.
+- API rate limiting.
+- CSRF protection where applicable.
+- Secure HTTP headers.
+- Upload validation.
+- Private file storage.
+- Audit logging.
+- Payment webhook verification.
+- Session expiration.
+- Protection against unauthorized data access.
+
+Customers must only access their own applications and documents.
+
+Operators must only access authorized applications.
+
+Administrators must have explicitly assigned permissions.
+
+Use data minimization and collect only information necessary for the requested service.
+
+Implement privacy consent and appropriate retention policies.
+
+---
+
+# 22. LEGAL PAGES AND BUSINESS TRANSPARENCY
+
+Create:
+
+- Privacy Policy.
+- Terms & Conditions.
+- Refund & Cancellation Policy.
+- Disclaimer.
+- Contact Us.
+- Grievance Redressal.
+
+Display the following disclaimer:
+
+"Digital India Project is a privately operated digital services and online registration assistance provider. We are not a government department or government-owned entity. Government registrations, applications and approvals are subject to the rules, verification and decisions of the respective authorities."
+
+Clearly identify:
+- Our service charges.
+- Government fees.
+- Third-party charges.
+- Refund eligibility.
+- Estimated processing time.
+
+Never promise guaranteed approval.
+
+Only claim official API integration where authorization and working integration actually exist.
+
+---
+
+# 23. SEO AND PERFORMANCE
+
+Implement:
+
+- SEO-friendly URLs.
+- Dynamic page titles.
+- Meta descriptions.
+- Open Graph metadata.
+- Canonical URLs.
+- XML sitemap.
+- Robots.txt.
+- Structured data.
+- Optimized images.
+- Lazy loading.
+- Responsive images.
+- Accessible HTML.
+- Mobile-first design.
+- Error pages.
+- Fast loading.
+- Proper caching.
+
+Target relevant search terms without misleading users into believing this is a government website.
+
+---
+
+# 24. DESIGN DETAILS AND MICRO-INTERACTIONS
+
+Make the website visually impressive.
+
+Use:
+
+- Modern service icons.
+- Subtle shadows.
+- Rounded service cards.
+- Smooth transitions.
+- Elegant dropdown menus.
+- Professional modal windows.
+- Responsive tables.
+- Application progress indicators.
+- Skeleton loading.
+- Toast notifications.
+- Empty states.
+- Confirmation dialogs.
+- Error and success screens.
+
+Use saffron orange for primary actions.
+
+Use yellow for highlights.
+
+Use green for success.
+
+Use red for errors and warnings.
+
+Maintain consistent design across public website, customer dashboard, operator dashboard and admin panel.
+
+Provide light mode and dark mode.
+
+Ensure the mobile interface feels like a well-designed application, not a compressed desktop website.
+
+---
+
+# 25. FUNCTIONAL REQUIREMENTS
+
+Every important button must perform its intended action.
+
+Implement:
+- Working navigation.
+- Working service search.
+- Working filters.
+- Working authentication.
+- Working application forms.
+- Working file uploads.
+- Working customer dashboard.
+- Working application tracking.
+- Working admin dashboard.
+- Working operator dashboard.
+- Working status management.
+- Working payment backend integration.
+- Working notification architecture.
+- Working AI assistant when configured.
+
+Do not create decorative buttons that do nothing.
+
+Do not use fake payment success.
+
+Do not use fake authentication.
+
+Do not expose demo data as real customer information.
+
+Use sample data only in clearly labelled demonstration environments.
+
+If an external service is not configured, display a clear configuration or unavailable message.
+
+---
+
+# 26. IMPLEMENTATION AND DEVELOPMENT WORKFLOW
+
+Work in the following order:
+
+PHASE 1:
+Set up the complete project structure, design system, colour palette, typography and reusable components.
+
+PHASE 2:
+Build all public website pages and service marketplace.
+
+PHASE 3:
+Build customer authentication and account dashboard.
+
+PHASE 4:
+Build dynamic service application forms.
+
+PHASE 5:
+Build document upload and private storage.
+
+PHASE 6:
+Build application tracking and status history.
+
+PHASE 7:
+Build Cashfree payment integration.
+
+PHASE 8:
+Build admin dashboard and management modules.
+
+PHASE 9:
+Build operator dashboard and role permissions.
+
+PHASE 10:
+Build notifications and customer support.
+
+PHASE 11:
+Integrate Gemini AI assistant.
+
+PHASE 12:
+Create database migrations, backend APIs and Cloudflare deployment configuration.
+
+PHASE 13:
+Test all workflows, permissions, responsive layouts and error states.
+
+Do not stop after completing the homepage.
+
+Do not merely describe what needs to be developed.
+
+Actually create the application files and implement the features in the available development environment.
+
+When a feature requires external credentials, complete its code structure and explain exactly which configuration is needed.
+
+---
+
+# 27. FINAL ACCEPTANCE CHECKLIST
+
+Before declaring the project complete, verify:
+
+[ ] Homepage works on desktop and mobile.
+
+[ ] All navigation links work.
+
+[ ] English and Hindi switching works.
+
+[ ] Service search works.
+
+[ ] Service category filters work.
+
+[ ] Individual service pages work.
+
+[ ] Customer registration works.
+
+[ ] Customer login works.
+
+[ ] Password reset is implemented.
+
+[ ] Application forms work.
+
+[ ] Draft applications can be saved.
+
+[ ] Document uploads work securely.
+
+[ ] Application IDs are generated.
+
+[ ] Customers can track applications.
+
+[ ] Status history is maintained.
+
+[ ] Cashfree backend integration is implemented.
+
+[ ] Payment verification is secure.
+
+[ ] Customer dashboard works.
+
+[ ] Admin dashboard works.
+
+[ ] Operator dashboard works.
+
+[ ] Role-based permissions are enforced.
+
+[ ] Notifications work when configured.
+
+[ ] AI assistant works when configured.
+
+[ ] Admin can manage services.
+
+[ ] Admin can manage application forms.
+
+[ ] Admin can manage customers.
+
+[ ] Admin can update website content.
+
+[ ] Legal pages are available.
+
+[ ] Database migrations are included.
+
+[ ] Cloudflare Worker deployment configuration is included.
+
+[ ] Environment variables are documented.
+
+[ ] No secrets are committed to GitHub.
+
+[ ] No critical buttons are non-functional.
+
+[ ] Error handling and loading states work.
+
+[ ] Demo records are clearly identified.
+
+---
+
+# FINAL PRODUCT VISION
+
+Create Digital India Project as a premium, trustworthy, scalable Indian digital services platform.
+
+The website must provide a seamless journey:
+
+DISCOVER SERVICE → SELECT SERVICE → APPLY ONLINE → UPLOAD DOCUMENTS → MAKE PAYMENT → RECEIVE ASSISTANCE → TRACK APPLICATION → COMPLETE SERVICE.
+
+The visual identity must be recognisably Indian-inspired through saffron orange, yellow, green and red while retaining a clean, professional commercial SaaS appearance.
+
+Build a complete, functional and scalable application rather than a static design template.
+
+Prioritise user experience, application management, security, maintainability and mobile responsiveness.
+
+**The final website should be ready for real-world business use after the required production credentials, legal content and service configurations are supplied.**

@@ -1,0 +1,11 @@
+# Digital India Project 2.0 — Implementation Roadmap
+
+- **Phase 1 — Audit & Foundation:** Repository inspection, architecture & security docs (`docs/*`), D1 additive migration `0003_enterprise_platform_2_0.sql`, dual Light/Dark theme + typographic system, and shared domain engines (`src/lib/*`).
+- **Phase 2 — Authentication & RBAC:** Five-role authorization (`super_admin`, `manager`, `operator`, `partner`, `customer`), permission middleware (`worker/middleware/auth.ts`), dynamic permission matrix editable by Super Admin, and Firestore rules sync (`DeployRules`).
+- **Phase 3 — Super Admin & Manager Workspaces:** Full 15-section `/admin` control center + `/manager` operations hub with SLA breach tracking, team workload balancing, bulk/individual operator assignment, and delegated permission gates.
+- **Phase 4 — Dynamic Service & Application Engine:** Versioned service schemas, 16-field Form Builder (`repeater`, `address`, `multiselect`, `conditional showIf`, EN/HI labels, consent blocks), unified Customer Self-Filing + Assisted Filing engine with draft saving & resume.
+- **Phase 5 — Operator Processing Desk (`/operator`):** Queue separation (assigned vs authorized pool), 14-stage state-machine status updates, document review/rejection, correction requests, internal notes isolation, and completion deliverable upload.
+- **Phase 6 — Customer Portal (`/dashboard`):** Welcome overview, resume drafts, track applications, missing document resubmission, notifications center, GST-compliant invoices, refund requests, support tickets, and security profile.
+- **Phase 7 — Partner / Agent Portal (`/partner`):** Partner enrollment & approval workflow, unique Partner ID & referral code, consented customer onboarding, assisted filing, deterministic commission ledger, settlement requests, and Super Admin payout approvals.
+- **Phase 8 — Hono Worker `/api/v1/*` & Integrations:** Modular Cloudflare Worker API routes backed by D1/R2, R2 short-lived signed downloads, Cashfree order/webhook idempotency, DigiLocker authorization flow, and Integration Manager (Email/WhatsApp/SMS/API Setu) with clear unconfigured states.
+- **Phase 9 — Verification & Automated Test Suite:** Automated Node/TS test suite (`tests/platform.test.ts`), `tsc --noEmit`, `vite build`, `esbuild worker/index.ts`, and `IMPLEMENTATION_STATUS.md` completion audit.

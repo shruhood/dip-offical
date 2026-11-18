@@ -1,0 +1,23 @@
+{
+  "name": "Digital India Project",
+  "short_name": "DIP Desk",
+  "description": "Online digital services, GST, PAN, Udyam MSME, FSSAI, Gazette, and DigiLocker registration assistance platform for India.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FF671F",
+  "icons": [
+    {
+      "src": "/assets/aistudio/696093696_122307239654025841_4128613407348569440_n_77583d2a.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/aistudio/696093696_122307239654025841_4128613407348569440_n_77583d2a.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

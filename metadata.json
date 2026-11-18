@@ -1,0 +1,8 @@
+{
+  "name": "Digital India Project",
+  "description": "Private digital services and online registration assistance platform for India. Explore services, apply online, upload documents, make payments, and track applications.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

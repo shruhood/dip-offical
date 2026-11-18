@@ -1,0 +1,1304 @@
+# CLAUDE CODE MASTER IMPLEMENTATION PROMPT
+## DIGITAL INDIA PROJECT 2.0 – Complete Enterprise Application Platform
+
+**Project:** Digital India Project  
+**Production domain:** https://digitalindiaproject.com  
+**Reported Cloudflare Worker:** https://dipproject.digital-india.workers.dev  
+**Reported GitHub repository:** digitalindiaproject/dipproject-digital-india  
+**Reported D1 database binding:** dipdb  
+**Reported R2 bucket binding:** documents  
+**Development approach:** Upgrade existing codebase, preserve working features, implement incrementally.
+
+---
+
+# 1. YOUR ROLE
+
+Act as a principal software architect, senior full-stack engineer, SaaS product designer, database architect, Cloudflare specialist, security engineer and QA lead.
+
+Your responsibility is to transform the existing Digital India Project website into a complete, production-quality, scalable application-filing and management platform.
+
+This is NOT a request for a static website, UI-only demo, prototype or collection of disconnected dashboard templates.
+
+Build a functional end-to-end business application with:
+
+- Public marketing website.
+- Customer self-service application portal.
+- Operator application-processing workspace.
+- Manager business-management workspace.
+- Super Admin control panel.
+- Partner/agent portal.
+- Dynamic application form engine.
+- Document management.
+- Payment management.
+- Application tracking.
+- Workflow automation.
+- Reporting and analytics.
+- Notifications and communication.
+- Secure role-based access control.
+
+Every dashboard must connect to the same backend, database, application engine and business logic.
+
+**Primary objective:** A business owner should be able to launch and manage new application services through the admin panel without requiring a developer to create a new form and backend route for every service.
+
+# 2. MANDATORY FIRST STEP: INSPECT THE EXISTING PROJECT
+
+Before changing anything, inspect the entire existing repository.
+
+Do not assume that the previous architecture, routes, components or bindings are still unchanged.
+
+Inspect:
+
+1. GitHub repository and current branch.
+2. Project directory structure.
+3. package.json and dependency versions.
+4. Frontend framework and current pages.
+5. Existing UI components and styling.
+6. Existing Hono backend and API routes.
+7. Cloudflare configuration and wrangler files.
+8. D1 database schema and migrations.
+9. R2 bucket configuration.
+10. Authentication and session management.
+11. Existing registration and login functionality.
+12. Current application filing and tracking features.
+13. Cashfree integration, if present.
+14. DigiLocker integration, if present.
+15. Email and notification implementation.
+16. Existing environment variables and secrets configuration.
+17. Git history, uncommitted changes and deployment configuration.
+18. Existing live application behavior, where accessible.
+
+Verify the reported infrastructure rather than assuming it is active.
+
+Preserve all existing working functionality.
+
+Never delete or replace working application flows just to introduce a new architecture.
+
+Do not overwrite user changes or discard uncommitted Git work.
+
+Create a project backup or a dedicated upgrade branch before risky changes.
+
+## Initial deliverable
+
+Create these documentation files:
+
+- docs/PROJECT_AUDIT.md
+- docs/ARCHITECTURE.md
+- docs/DATABASE_DESIGN.md
+- docs/ROLE_PERMISSION_MATRIX.md
+- docs/IMPLEMENTATION_ROADMAP.md
+- docs/SECURITY_PLAN.md
+- docs/API_SPECIFICATION.md
+
+The audit must explain:
+
+- What currently works.
+- What is incomplete.
+- What needs improvement.
+- What can be reused.
+- What needs migration.
+- Any security issues.
+- Any infrastructure limitations.
+- Any risks to existing production data.
+
+After the audit, prepare a concrete implementation plan and continue with implementation. Do not stop after producing documentation unless a genuinely blocking issue requires owner approval.
+
+# 3. BUSINESS IDENTITY AND BRANDING
+
+Digital India Project is a PRIVATE business providing online filing, registration and documentation assistance services.
+
+It is NOT a government department, government portal or official government authority.
+
+Brand requirements:
+
+- Professional enterprise SaaS appearance.
+- Clean, trustworthy, modern visual identity.
+- No Ashoka Chakra.
+- No government emblems or misleading official seals.
+- No design implying that this is a government-owned portal.
+- Do not position the company as a printing shop.
+- Clearly disclose that Digital India Project is a private service provider.
+- Provide clear service descriptions, fees, processing expectations and disclaimers.
+- Use a responsive design.
+- Support English and Hindi.
+- Include accessible forms and readable typography.
+- Include light and dark themes.
+
+Do not hardcode GSTIN or private business credentials into source code.
+
+Business settings must be configurable through an authorized administration interface or secure environment configuration.
+
+# 4. FINAL USER ROLES
+
+Implement five primary roles.
+
+## A. SUPER ADMIN
+
+Route prefix: /admin
+
+The Super Admin is the owner-level authority with complete platform access.
+
+Features:
+
+1. Business overview dashboard.
+2. Application management.
+3. Customer management.
+4. Manager management.
+5. Operator management.
+6. Partner management.
+7. Service management.
+8. Service categories.
+9. Dynamic form builder.
+10. Workflow management.
+11. Document management.
+12. Payment management.
+13. Refund management.
+14. Partner commission management.
+15. Partner settlements.
+16. Invoice management.
+17. Reports and analytics.
+18. Website content management.
+19. Notification templates.
+20. Email and messaging configuration.
+21. API integration management.
+22. Cashfree settings.
+23. DigiLocker settings.
+24. GST and business settings.
+25. Roles and permissions.
+26. Audit logs.
+27. Security and session management.
+28. Platform configuration.
+29. Backup and recovery tools.
+
+Only Super Admin can manage global platform settings and grant privileged permissions.
+
+## B. MANAGER
+
+Route prefix: /manager
+
+The Manager manages day-to-day business operations using permissions delegated by Super Admin.
+
+Features:
+
+- Business overview.
+- Application monitoring.
+- Operator management within permitted scope.
+- Operator assignment.
+- Application reassignment.
+- Customer support.
+- Document review oversight.
+- Service monitoring.
+- Workload management.
+- SLA monitoring.
+- Revenue and operational reports.
+- Partner monitoring.
+- Commission reports where authorized.
+- Internal communication.
+- Team performance.
+
+Manager permissions must be individually configurable.
+
+Do not grant global system settings or unrestricted security administration by default.
+
+## C. OPERATOR
+
+Route prefix: /operator
+
+The Operator handles assigned applications.
+
+Features:
+
+- Personal dashboard.
+- Assigned applications.
+- New authorized applications.
+- Application detail workspace.
+- Document verification.
+- Missing-document requests.
+- Correction requests.
+- Application processing.
+- Customer communication.
+- Internal notes.
+- Status updates.
+- Completed applications.
+- Processing history.
+- Workload and performance.
+
+Operators must not see other operators' private assignments unless permission is explicitly granted.
+
+## D. CUSTOMER
+
+Route prefix: /dashboard
+
+Customer features:
+
+- Registration and login.
+- Customer dashboard.
+- Browse services.
+- Search and filter services.
+- Service details.
+- Start application.
+- Save draft.
+- Resume application.
+- Upload documents.
+- Preview answers.
+- Customer consent.
+- Online payment.
+- Application history.
+- Application tracking.
+- Correction requests.
+- Notifications.
+- Download completed deliverables.
+- Payments and invoices.
+- Support tickets.
+- Profile and security settings.
+
+A customer must only access their own data and authorized shared resources.
+
+## E. PARTNER / AGENT
+
+Route prefix: /partner
+
+Create a complete partner management module.
+
+Partner features:
+
+- Partner registration.
+- Partner approval workflow.
+- Partner profile.
+- Partner dashboard.
+- Unique partner ID.
+- Unique referral code.
+- Partner customer management.
+- Customer creation with appropriate consent.
+- Assisted application filing.
+- Partner-submitted applications.
+- Application tracking.
+- Partner-specific pricing where authorized.
+- Commission dashboard.
+- Commission ledger.
+- Pending and approved commissions.
+- Settlement requests.
+- Settlement history.
+- Partner statements.
+- Performance reports.
+- Support tickets.
+- Partner notifications.
+
+Partners must only access their own customer relationships, applications, commissions and permitted information.
+
+Do not allow partners to change their own commission rules or settlement records.
+
+Support future expansion into multiple partner types without redesigning the application engine.
+
+# 5. ROLE-BASED ACCESS CONTROL
+
+Build centralized RBAC and permission management.
+
+Do not rely on frontend hiding alone.
+
+Every protected API must verify:
+
+- Valid authentication.
+- Active account.
+- Assigned role.
+- Required permission.
+- Resource ownership.
+- Resource scope.
+- Application assignment, when applicable.
+- Partner relationship, when applicable.
+
+Create a granular permission system.
+
+Example permissions:
+
+- applications.view
+- applications.create
+- applications.assign
+- applications.process
+- applications.verify_documents
+- applications.request_correction
+- applications.complete
+- applications.cancel
+- services.create
+- services.edit
+- services.publish
+- users.manage
+- operators.assign
+- partners.manage
+- payments.view
+- payments.refund
+- commissions.manage
+- reports.view
+- settings.manage
+- audit_logs.view
+
+Super Admin should be able to configure custom role permissions.
+
+Implement permission middleware in Hono.
+
+Never trust a role or user ID supplied by the frontend without verifying it against the authenticated session.
+
+Prevent horizontal and vertical privilege escalation.
+
+# 6. DYNAMIC SERVICE AND APPLICATION ENGINE
+
+This is the core of the platform.
+
+Build one reusable application engine that supports hundreds of services.
+
+The administrator must be able to create and configure a service without writing custom code.
+
+## Service management
+
+Each service should support:
+
+- Service name.
+- URL slug.
+- Category.
+- Short description.
+- Detailed description.
+- Service icon.
+- Cover image.
+- Eligibility information.
+- Required documents.
+- Instructions.
+- Service fee.
+- Additional service charges.
+- Applicable tax configuration.
+- Estimated processing time.
+- Published/unpublished state.
+- Featured status.
+- Search metadata.
+- Language translations.
+- Filing modes.
+- Form schema.
+- Workflow configuration.
+- Assignment rules.
+- Service-specific disclaimers.
+
+Examples of services:
+
+- PAN application and correction assistance.
+- Udyam registration assistance.
+- Gazette name-change assistance.
+- D-U-N-S registration assistance.
+- DigiLocker-related assistance.
+- Other authorized filing and registration services.
+
+Do not represent these services as guaranteed government approvals.
+
+## Dynamic form builder
+
+Create a professional form builder with:
+
+- Text input.
+- Number input.
+- Email.
+- Mobile number.
+- Date.
+- Dropdown.
+- Multi-select.
+- Radio group.
+- Checkbox.
+- Textarea.
+- Address.
+- File upload.
+- Repeating field groups.
+- Section headings.
+- Information blocks.
+- Consent declarations.
+
+Advanced features:
+
+- Required and optional fields.
+- Field validation.
+- Conditional fields.
+- Conditional sections.
+- Document requirements based on answers.
+- Field-level instructions.
+- Hindi and English labels.
+- Custom error messages.
+- Form preview.
+- Form versioning.
+- Draft saving.
+- Customer resume functionality.
+- Submission validation.
+
+Use a safe, versioned JSON schema format.
+
+Validate submitted data on the server using the exact form version associated with the application.
+
+Never execute arbitrary JavaScript supplied through the form builder.
+
+## Two filing modes
+
+Mode 1: Customer self-filing.
+
+Customer logs in, selects a service, completes the form, uploads documents, reviews and submits.
+
+Mode 2: Assisted filing.
+
+Authorized operators and partners can assist customers with application preparation and submission.
+
+Both modes must use the same service definitions, validation engine, application database and workflow system.
+
+Record who created, assisted with, reviewed and submitted the application.
+
+Capture customer consent and authorization for assisted filing.
+
+# 7. APPLICATION MANAGEMENT AND WORKFLOW
+
+Every application must have:
+
+- Internal unique ID.
+- Human-readable application reference.
+- Customer ID.
+- Service ID.
+- Service version.
+- Form schema version.
+- Filing mode.
+- Partner ID, when applicable.
+- Assigned operator.
+- Assigned manager, when applicable.
+- Application answers.
+- Document references.
+- Payment references.
+- Current status.
+- Submission timestamp.
+- Last update timestamp.
+- Completion information.
+
+## Default workflow statuses
+
+1. Draft.
+2. Submitted.
+3. Payment Pending.
+4. Payment Confirmed.
+5. Under Review.
+6. Documents Required.
+7. Correction Required.
+8. Resubmitted.
+9. Assigned.
+10. Processing.
+11. Awaiting External Authority.
+12. Completed.
+13. Rejected.
+14. Cancelled.
+
+Make workflow transitions configurable.
+
+Do not permit arbitrary status jumps.
+
+Implement transition validation on the server.
+
+Every status transition must record:
+
+- Previous status.
+- New status.
+- Actor.
+- Timestamp.
+- Reason.
+- Customer-visible message, if applicable.
+
+Separate customer-visible remarks from internal staff notes.
+
+Add application activity timeline.
+
+Add application filters, pagination, sorting, search and bulk assignment for authorized staff.
+
+Implement service-specific SLA targets and overdue alerts.
+
+# 8. DOCUMENT MANAGEMENT
+
+Use private Cloudflare R2 storage.
+
+Features:
+
+- Multiple file uploads.
+- File metadata.
+- Document categories.
+- Required-document checklist.
+- File format restrictions.
+- Configurable file-size restrictions.
+- Document versioning.
+- Document verification.
+- Rejection reason.
+- Resubmission.
+- Expiry metadata when applicable.
+- Document download history.
+
+Security:
+
+- Never make identity documents publicly accessible.
+- Generate short-lived signed download links after authorization.
+- Validate actual file content and MIME type.
+- Generate unpredictable object keys.
+- Prevent path traversal.
+- Apply upload limits.
+- Protect against malicious files.
+- Never trust filenames or extensions.
+- Avoid logging document contents or sensitive identity values.
+- Add access audit logs.
+- Apply appropriate retention and deletion policies.
+
+Only authorized users should access the documents required for their workflow.
+
+# 9. PAYMENT AND FINANCIAL SYSTEM
+
+Integrate Cashfree through server-side APIs.
+
+Implement:
+
+- Payment order creation.
+- Order reference.
+- Payment initiation.
+- Payment verification.
+- Webhook verification.
+- Idempotency.
+- Payment history.
+- Failed payment handling.
+- Refund management.
+- Payment reconciliation.
+- Invoice generation.
+- Customer transaction history.
+- Admin transaction reporting.
+
+Never mark an application paid based only on a browser redirect.
+
+Verify payment using authenticated server-side Cashfree responses and verified webhooks.
+
+Store webhook event IDs and prevent duplicate processing.
+
+## Financial structure
+
+Keep separate accounting records for:
+
+- Service fees.
+- Taxes.
+- Additional charges.
+- Payment gateway charges, if tracked.
+- Refunds.
+- Partner commissions.
+- Partner settlements.
+
+Use integer minor currency units for monetary calculations.
+
+Store currency and applicable tax details at transaction time.
+
+Do not assume every service has the same tax treatment.
+
+Allow authorized staff to configure invoice details and business GST information.
+
+Do not store card numbers, CVV or other prohibited payment credentials.
+
+# 10. PARTNER COMMISSION ENGINE
+
+Implement a configurable commission system.
+
+Support:
+
+- Fixed commission.
+- Percentage commission.
+- Service-specific commission.
+- Partner-specific commission.
+- Effective dates.
+- Eligibility conditions.
+- Minimum settlement threshold.
+- Commission approval.
+- Reversal and adjustment entries.
+- Settlement processing.
+
+Maintain an immutable or auditable financial ledger.
+
+Commission calculations must be deterministic and idempotent.
+
+The admin should be able to review and approve settlement requests.
+
+Do not allow a partner to approve their own settlement.
+
+# 11. DATABASE ARCHITECTURE
+
+Use Cloudflare D1 with proper migrations.
+
+Inspect existing tables before introducing schema changes.
+
+Create a normalized and indexed schema covering:
+
+Identity:
+- users
+- roles
+- permissions
+- user_roles
+- role_permissions
+- sessions
+
+Services:
+- service_categories
+- services
+- service_versions
+- service_pricing
+- form_schemas
+
+Forms:
+- form_versions
+- form_fields, if required by the selected schema design
+
+Applications:
+- applications
+- application_answers
+- application_events
+- application_assignments
+- application_notes
+- workflow_transitions
+
+Documents:
+- documents
+- document_requirements
+- document_reviews
+- document_access_logs
+
+Partners:
+- partners
+- partner_customers
+- referral_codes
+- commission_rules
+- commission_ledger
+- settlement_requests
+- settlements
+
+Finance:
+- payment_orders
+- payments
+- payment_webhook_events
+- refunds
+- invoices
+
+Communication:
+- notifications
+- notification_templates
+- support_tickets
+- support_messages
+
+Administration:
+- business_settings
+- system_settings
+- api_integrations
+- audit_logs
+
+Infrastructure:
+- idempotency_keys
+- background_jobs
+- scheduled_jobs
+
+Use appropriate indexes, unique constraints, foreign keys and transactions.
+
+Use explicit migration files.
+
+Never reset a production database to install the new schema.
+
+Create backup and rollback procedures before production migrations.
+
+# 12. API ARCHITECTURE
+
+Use Hono on Cloudflare Workers.
+
+Organize APIs into modular route groups.
+
+Suggested structure:
+
+/api/v1/auth
+/api/v1/users
+/api/v1/admin
+/api/v1/manager
+/api/v1/operator
+/api/v1/partner
+/api/v1/customers
+/api/v1/services
+/api/v1/forms
+/api/v1/applications
+/api/v1/documents
+/api/v1/payments
+/api/v1/refunds
+/api/v1/commissions
+/api/v1/settlements
+/api/v1/notifications
+/api/v1/support
+/api/v1/reports
+/api/v1/integrations
+
+Requirements:
+
+- Consistent response format.
+- Input validation.
+- Central error handling.
+- Authentication middleware.
+- Permission middleware.
+- Resource ownership checks.
+- Pagination.
+- Rate limiting.
+- Request ID.
+- Structured logging.
+- API versioning.
+- Idempotency for sensitive write operations.
+
+Do not place all business logic directly in route handlers.
+
+Use modular service/repository layers appropriate to the project's existing architecture.
+
+# 13. FRONTEND ARCHITECTURE
+
+Build a premium enterprise SaaS frontend.
+
+Recommended stack:
+
+- React.
+- TypeScript.
+- Vite.
+- Tailwind CSS.
+- shadcn/ui or equivalent accessible components.
+- React Router.
+- TanStack Query.
+- React Hook Form.
+- Zod.
+- A suitable charting library.
+
+Preserve existing compatible dependencies.
+
+Avoid unnecessary libraries.
+
+Suggested architecture:
+
+src/
+  app/
+  components/
+  layouts/
+  features/
+    auth/
+    admin/
+    manager/
+    operator/
+    customer/
+    partner/
+    services/
+    forms/
+    applications/
+    documents/
+    payments/
+    notifications/
+    reports/
+  hooks/
+  lib/
+  services/
+  types/
+  locales/
+  styles/
+
+Build shared reusable components:
+
+- Sidebar.
+- Header.
+- Breadcrumbs.
+- Data table.
+- Search.
+- Filters.
+- Pagination.
+- Modal.
+- Drawer.
+- Confirmation dialog.
+- Form components.
+- Status badges.
+- Timeline.
+- Document uploader.
+- Notification centre.
+- Charts.
+- Empty states.
+- Error states.
+- Loading skeletons.
+
+## Design direction
+
+Premium modern SaaS design.
+
+Use:
+
+- Clean white and neutral backgrounds.
+- Deep navy or blue accents.
+- Clear typography.
+- Consistent spacing.
+- Professional tables.
+- Modern analytics cards.
+- Responsive layouts.
+- Subtle animations.
+- Accessible color contrast.
+- Consistent icons.
+
+Avoid excessive gradients, oversized hero sections inside dashboards, cluttered cards and unnecessary animations.
+
+Each workspace must have its own dedicated layout and navigation.
+
+Mobile responsiveness is mandatory.
+
+## Dashboard requirements
+
+Super Admin:
+- Total applications.
+- Applications awaiting action.
+- Completed applications.
+- Total customers.
+- Active partners.
+- Active operators.
+- Revenue.
+- Payment summaries.
+- Service performance.
+- Recent activity.
+
+Manager:
+- Team workload.
+- Pending assignments.
+- Overdue applications.
+- Processing performance.
+- Customer support workload.
+- Operational reports.
+
+Operator:
+- My assigned applications.
+- Pending verification.
+- Correction requests.
+- Applications in progress.
+- Completed applications.
+- Daily workload.
+
+Customer:
+- Welcome dashboard.
+- Apply now.
+- My applications.
+- Application status.
+- Pending payments.
+- Missing documents.
+- Recent notifications.
+
+Partner:
+- Total referrals.
+- Total customers.
+- Applications submitted.
+- Processing applications.
+- Completed applications.
+- Commission summary.
+- Pending settlements.
+- Performance trends.
+
+All statistics must come from real database queries.
+
+# 14. PUBLIC WEBSITE AND SERVICE PAGES
+
+Preserve and improve the existing public website.
+
+Required pages:
+
+- Home.
+- About Us.
+- All Services.
+- Service Category.
+- Individual Service Details.
+- How It Works.
+- Pricing and Charges.
+- Track Application.
+- Contact Us.
+- Help Centre.
+- FAQs.
+- Privacy Policy.
+- Terms and Conditions.
+- Refund and Cancellation Policy.
+- Disclaimer.
+- Login.
+- Register.
+
+Homepage should focus on:
+
+- Private online filing and registration assistance.
+- Service discovery.
+- Easy application submission.
+- Transparent fees.
+- Application tracking.
+- Secure document handling.
+- Customer support.
+
+Every service must have a dedicated SEO-friendly URL.
+
+Do not copy another website's protected design or content.
+
+# 15. NOTIFICATIONS AND COMMUNICATION
+
+Create a centralized notification system.
+
+Channels:
+
+- In-app notifications.
+- Email.
+- WhatsApp integration, where authorized.
+- SMS integration, where configured.
+
+Events:
+
+- Registration.
+- Application submitted.
+- Payment received.
+- Application assigned.
+- Document verification.
+- Correction requested.
+- Application status changed.
+- Application completed.
+- Document available.
+- Refund update.
+- Partner commission update.
+- Settlement update.
+
+Implement:
+
+- Notification templates.
+- English and Hindi content.
+- Delivery logs.
+- Retry handling.
+- Customer notification preferences.
+- Message audit history.
+
+Do not assume Cloudflare Email Routing supports outbound email delivery. Configure a suitable transactional email provider separately if necessary.
+
+# 16. INTEGRATION ARCHITECTURE
+
+Create a secure integration manager.
+
+Potential integrations:
+
+- Cashfree.
+- DigiLocker.
+- Email.
+- WhatsApp Business.
+- SMS.
+- Authorized government/API Setu services.
+
+All integrations must be configurable.
+
+Store API credentials in Cloudflare secrets or an appropriately protected configuration store.
+
+Never expose credentials in frontend code or GitHub.
+
+## DigiLocker
+
+Implement only the official authorized integration flow.
+
+Follow applicable Requestor requirements, including Purpose and Client Name parameters where required.
+
+Support consent, authorization, callback validation, secure token handling and document-sharing audit trails.
+
+Do not simulate government API approval or claim an integration is live without actual credentials and successful testing.
+
+For all external services, implement clear disabled/unconfigured states.
+
+# 17. SECURITY AND PRIVACY
+
+Treat the platform as a system handling sensitive customer documents.
+
+Implement:
+
+- Secure authentication.
+- Session rotation and expiration.
+- Password hashing using established secure algorithms.
+- Optional multi-factor authentication for privileged accounts.
+- CSRF protection where applicable.
+- XSS protection.
+- SQL injection protection.
+- Secure cookies.
+- Rate limiting.
+- Brute-force protection.
+- Permission checks.
+- Document access controls.
+- Payment webhook signature verification.
+- Audit logs.
+- Secure secrets management.
+- Data retention controls.
+- Backup and recovery.
+- Security headers.
+- Appropriate privacy and consent controls.
+
+Do not log passwords, authentication tokens, full identity numbers or document contents.
+
+Protect customer data from other customers, partners and unauthorized staff.
+
+# 18. PERFORMANCE AND SCALABILITY
+
+Build for future growth.
+
+Use:
+
+- Indexed D1 queries.
+- Pagination rather than loading all records.
+- Efficient database access.
+- Cloudflare caching for public content only.
+- Queues for asynchronous tasks.
+- Cron for scheduled processing.
+- R2 for large documents.
+- Optimized frontend bundles.
+- Lazy loading.
+- Database query limits.
+- Retry and dead-letter handling for background work.
+
+Do not cache private customer or application data in publicly accessible caches.
+
+Do not assume a particular Cloudflare plan includes every capability.
+
+Check actual account compatibility and free-tier limits before selecting an implementation.
+
+Design modularly so the platform can later move to a larger database or infrastructure without rewriting all business logic.
+
+# 19. TESTING REQUIREMENTS
+
+Build automated tests.
+
+At minimum:
+
+Authentication:
+- Registration.
+- Login.
+- Logout.
+- Session expiration.
+- Password recovery.
+
+RBAC:
+- Super Admin permissions.
+- Manager restrictions.
+- Operator assignment restrictions.
+- Partner isolation.
+- Customer ownership.
+
+Applications:
+- Customer filing.
+- Assisted filing.
+- Draft and resume.
+- Form validation.
+- Document submission.
+- Status transitions.
+- Application tracking.
+
+Payments:
+- Order creation.
+- Verified success.
+- Failure.
+- Webhook retries.
+- Duplicate events.
+- Refunds.
+
+Partners:
+- Referral attribution.
+- Commission calculation.
+- Ledger consistency.
+- Settlement approval.
+- Partner data isolation.
+
+Documents:
+- Unauthorized access denial.
+- Invalid file rejection.
+- Signed URL expiration.
+- Access audit.
+
+Frontend:
+- All five workspaces.
+- Responsive navigation.
+- Functional forms.
+- Loading and error states.
+- Mobile experience.
+
+Test using isolated test data.
+
+Never use real customer documents or live payment credentials in automated test fixtures.
+
+# 20. IMPLEMENTATION PHASES
+
+Execute the project in these phases.
+
+PHASE 1 – Audit and foundation:
+- Inspect repository.
+- Document architecture.
+- Identify working features.
+- Prepare upgrade branch.
+- Establish design system.
+- Establish testing baseline.
+
+PHASE 2 – Authentication and RBAC:
+- Secure sessions.
+- Five role types.
+- Permission management.
+- Protected routes.
+- Resource ownership.
+
+PHASE 3 – Admin and Manager:
+- Admin dashboard.
+- Manager dashboard.
+- Staff management.
+- Customer management.
+- Service management.
+- Role permissions.
+
+PHASE 4 – Application engine:
+- Dynamic form builder.
+- Service configuration.
+- Customer filing.
+- Assisted filing.
+- Application workflow.
+- Assignment engine.
+
+PHASE 5 – Operator workspace:
+- Application queue.
+- Verification.
+- Correction workflow.
+- Processing.
+- Completion.
+
+PHASE 6 – Customer portal:
+- Customer dashboard.
+- Application tracking.
+- Documents.
+- Payments.
+- Notifications.
+- Support.
+
+PHASE 7 – Partner portal:
+- Partner registration.
+- Referral tracking.
+- Assisted filing.
+- Commission ledger.
+- Settlements.
+
+PHASE 8 – Integrations:
+- Cashfree.
+- DigiLocker.
+- Email.
+- WhatsApp.
+- SMS.
+
+PHASE 9 – Production readiness:
+- Security review.
+- Regression testing.
+- Performance testing.
+- Backup verification.
+- Production deployment.
+
+Each phase must leave the application in a coherent working state.
+
+# 21. CLOUDflare DEPLOYMENT AND GIT WORKFLOW
+
+Continue using the existing GitHub-first deployment process.
+
+Before modifying Cloudflare configuration:
+
+1. Inspect existing wrangler configuration.
+2. Verify Worker entry points.
+3. Verify existing bindings.
+4. Verify D1 database IDs.
+5. Verify R2 bucket names.
+6. Verify assets configuration.
+7. Verify environment configuration.
+8. Verify deployment scripts.
+
+Do not replace valid bindings with placeholders.
+
+Do not overwrite production database identifiers.
+
+Do not delete existing R2 objects.
+
+Do not commit secrets.
+
+Use separate development/staging configuration where possible.
+
+Deployment workflow:
+
+1. Implement locally.
+2. Run type checks.
+3. Run lint.
+4. Run unit tests.
+5. Run build.
+6. Apply migrations to an isolated environment.
+7. Run integration tests.
+8. Review Git diff.
+9. Commit logical changes.
+10. Push to GitHub.
+11. Deploy staging.
+12. Verify all workflows.
+13. Obtain approval for production database migrations and production deployment.
+14. Deploy production.
+15. Verify live application health.
+
+Never claim that a feature is live until it has been tested on the deployed environment.
+
+# 22. REQUIRED DEFINITION OF DONE
+
+A phase is complete only when:
+
+- The actual feature exists.
+- Backend functionality works.
+- Database persistence works.
+- Permissions are enforced server-side.
+- Validation works.
+- Error states are handled.
+- UI is responsive.
+- Relevant tests pass.
+- No critical security issue remains.
+- Documentation is updated.
+
+The project is not complete merely because a dashboard screenshot looks good.
+
+The final platform must allow:
+
+1. Super Admin to create services and manage the entire business.
+2. Manager to manage authorized business operations.
+3. Operator to process assigned applications.
+4. Customer to submit and track applications independently.
+5. Partner to onboard customers and submit assisted applications.
+6. Both filing modes to use the same application engine.
+7. All users to see only the data they are authorized to access.
+8. Payments, documents, workflows and notifications to work end to end.
+
+# 23. EXECUTION INSTRUCTIONS
+
+Start now.
+
+First inspect the complete existing repository.
+
+Do not immediately rewrite the frontend.
+
+Do not immediately replace the database.
+
+Do not generate disconnected static dashboards.
+
+Prepare the audit and implementation roadmap.
+
+Then implement the highest-priority foundation and continue phase by phase.
+
+Work independently where decisions are architectural and reversible.
+
+Ask for owner approval only for genuinely sensitive or irreversible operations, including production data migrations, live payment configuration, destructive operations and production deployment.
+
+If a requested integration lacks credentials, build the integration architecture and clearly identify what is awaiting configuration.
+
+If Cloudflare free-tier limitations prevent a specific capability, document the limitation and implement a compatible alternative without silently introducing unnecessary paid services.
+
+Keep a continuously updated file:
+
+docs/IMPLEMENTATION_STATUS.md
+
+Record:
+- Completed features.
+- In-progress features.
+- Remaining tasks.
+- Tests performed.
+- Test results.
+- Known issues.
+- Required owner actions.
+- Deployment status.
+
+Maintain a clean Git history.
+
+Do not leave critical buttons as placeholders.
+
+Do not report success without verification.
+
+**FINAL MISSION: Transform Digital India Project into a complete, secure, professional and scalable multi-role application-filing business platform, upgrading the existing working codebase rather than unnecessarily rebuilding it.**

@@ -1,0 +1,40 @@
+import type { CouponRecord } from '../../types';
+
+export const INITIAL_COUPONS: CouponRecord[] = [
+  {
+    id: 'cpn-dip10',
+    code: 'DIGITAL10',
+    description: '10% off professional fees on orders ₹499+',
+    discountType: 'percentage',
+    discountAmountInr: 0,
+    discountPercentBps: 1000,
+    maxDiscountInr: 500,
+    minOrderAmountInr: 499,
+    usedCount: 0,
+    isActive: true,
+  },
+  {
+    id: 'cpn-silvassa100',
+    code: 'SILVASSA100',
+    description: '₹100 flat off on business & compliance services ₹999+',
+    discountType: 'fixed',
+    discountAmountInr: 100,
+    discountPercentBps: 0,
+    minOrderAmountInr: 999,
+    applicableCategories: ['business-registration', 'tax-compliance', 'digital-technology'],
+    usedCount: 0,
+    isActive: true,
+  },
+  {
+    id: 'cpn-kit50',
+    code: 'TEMPLATES50',
+    description: '₹50 flat off on Digital Products & Bundles ₹199+',
+    discountType: 'fixed',
+    discountAmountInr: 50,
+    discountPercentBps: 0,
+    minOrderAmountInr: 199,
+    applicableCategories: ['digital-products'],
+    usedCount: 0,
+    isActive: true,
+  },
+];

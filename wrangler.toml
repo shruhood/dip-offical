@@ -1,0 +1,209 @@
+name = "digitalindiaproject"
+main = "worker/index.ts"
+compatibility_date = "2025-05-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+APP_DOMAIN = "https://digitalindiaproject.com"
+BUSINESS_EMAIL = "support@digitalindiaproject.com"
+CASHFREE_API_VERSION = "2023-08-01"
+CASHFREE_CLIENT_ID = "14463256bcf61345cef7c71750b5236441"
+CASHFREE_ENV = "production"
+ENVIRONMENT = "production"
+FREE_PLAN_MAX_R2_BYTES = "9126805504" # 8.5 GB safety threshold under 10 GB Free-Plan R2 tier
+FREE_PLAN_MAX_UPLOAD_BYTES = "10485760" # 10 MB per upload guardrail
+PAYMENTS_EMAIL = "payments@digitalindiaproject.com"
+
+# ==============================================================================
+# CLOUDFLARE D1 DATABASES (10/10 — Strict Cloudflare Free Plan Maximum)
+# Wrangler auto-provisions/binds databases by name when database_id is omitted.
+# ==============================================================================
+
+# Slot 1: Core users, roles, permissions, sessions, settings & fallback DB
+[[d1_databases]]
+binding = "DB"
+database_name = "dip-official"
+migrations_dir = "migrations"
+
+# Slot 2: Applications, workflow stages, assignments, notifications & file registry
+[[d1_databases]]
+binding = "DB_WORKFLOW"
+database_name = "dip-workflow"
+migrations_dir = "migrations"
+
+# Slot 3: Partner profiles, operator KYC enrollments, referrals & commission rules
+[[d1_databases]]
+binding = "DB_PARTNERS"
+database_name = "dip-partners"
+migrations_dir = "migrations"
+
+# Slot 4: Bilingual Hindi/English blog CMS, revisions, categories & SEO metadata
+[[d1_databases]]
+binding = "DB_CONTENT"
+database_name = "dip-content"
+migrations_dir = "migrations"
+
+# Slot 5: API Junction providers, catalogue, B2B clients & masked request logs
+[[d1_databases]]
+binding = "DB_API"
+database_name = "dip-api"
+migrations_dir = "migrations"
+
+# Slot 6: Cashfree orders, webhook deduplication, invoices, refunds & settlements
+[[d1_databases]]
+binding = "DB_BILLING"
+database_name = "dip-billing"
+migrations_dir = "migrations"
+
+# Slot 7: Audit logs, document access trails, backup inventory & infra health events
+[[d1_databases]]
+binding = "DB_AUDIT"
+database_name = "dip-audit"
+migrations_dir = "migrations"
+
+# Slot 8: Service catalogue, tiered pricing, conditional forms & document rules
+[[d1_databases]]
+binding = "DB_SERVICES"
+database_name = "dip-services"
+migrations_dir = "migrations"
+
+# Slot 9: External integration configurations, idempotency keys & job schedules
+[[d1_databases]]
+binding = "DB_INTEGRATIONS"
+database_name = "dip-integrations"
+migrations_dir = "migrations"
+
+# Slot 10: Operational analytics, SLA summaries & platform resource reporting
+[[d1_databases]]
+binding = "DB_ANALYTICS"
+database_name = "dip-analytics"
+migrations_dir = "migrations"
+
+# ==============================================================================
+# CLOUDFLARE R2 STORAGE BUCKETS (10 Purpose-Isolated Buckets — Shared 10 GB Free Tier)
+# ==============================================================================
+
+# Slot 1: Existing private customer & application verification documents
+[[r2_buckets]]
+binding = "DOCUMENTS_BUCKET"
+bucket_name = "dip-official"
+
+# Slot 2: Public website images, logos & banners
+[[r2_buckets]]
+binding = "PUBLIC_ASSETS_BUCKET"
+bucket_name = "dip-public-assets"
+
+# Slot 3: Generated application summaries, receipts & tax invoices
+[[r2_buckets]]
+binding = "GENERATED_FILES_BUCKET"
+bucket_name = "dip-generated-files"
+
+# Slot 4: Verified D1 database snapshots & recovery archives
+[[r2_buckets]]
+binding = "BACKUPS_BUCKET"
+bucket_name = "dip-backups"
+
+# Slot 5: API Junction OpenAPI specs & integration reference files
+[[r2_buckets]]
+binding = "API_STORAGE_BUCKET"
+bucket_name = "dip-api-storage"
+
+# Slot 6: Customer vault attachments & supporting compliance files
+[[r2_buckets]]
+binding = "CUSTOMER_UPLOADS_BUCKET"
+bucket_name = "dip-customer-uploads"
+
+# Slot 7: Partner onboarding agreements & operator KYC documents
+[[r2_buckets]]
+binding = "PARTNER_FILES_BUCKET"
+bucket_name = "dip-partner-files"
+
+# Slot 8: Non-sensitive B2B bulk verification archives
+[[r2_buckets]]
+binding = "API_ARCHIVES_BUCKET"
+bucket_name = "dip-api-archives"
+
+# Slot 9: Bilingual blog images, illustrations & media library
+[[r2_buckets]]
+binding = "MEDIA_LIBRARY_BUCKET"
+bucket_name = "dip-media-library"
+
+# Slot 10: CSV, JSON & PDF compliance export reports
+[[r2_buckets]]
+binding = "EXPORT_REPORTS_BUCKET"
+bucket_name = "dip-export-reports"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = [
+  "/api/*",
+  "/__/auth/*",
+  "/__/firebase/*",
+  "/robots.txt",
+  "/sitemap.xml",
+  "/sitemaps/*",
+  "/india",
+  "/india/*",
+  "/en/india",
+  "/en/india/*",
+  "/hi/india",
+  "/hi/india/*",
+  "/as/india",
+  "/as/india/*",
+  "/bn/india",
+  "/bn/india/*",
+  "/brx/india",
+  "/brx/india/*",
+  "/doi/india",
+  "/doi/india/*",
+  "/gu/india",
+  "/gu/india/*",
+  "/kn/india",
+  "/kn/india/*",
+  "/ks/india",
+  "/ks/india/*",
+  "/kok/india",
+  "/kok/india/*",
+  "/mai/india",
+  "/mai/india/*",
+  "/ml/india",
+  "/ml/india/*",
+  "/mni/india",
+  "/mni/india/*",
+  "/mr/india",
+  "/mr/india/*",
+  "/ne/india",
+  "/ne/india/*",
+  "/or/india",
+  "/or/india/*",
+  "/pa/india",
+  "/pa/india/*",
+  "/sa/india",
+  "/sa/india/*",
+  "/sat/india",
+  "/sat/india/*",
+  "/sd/india",
+  "/sd/india/*",
+  "/ta/india",
+  "/ta/india/*",
+  "/te/india",
+  "/te/india/*",
+  "/ur/india",
+  "/ur/india/*"
+]
+
+# Non-production staging configuration: shares Worker code on Free Plan while preventing accidental prod mixing
+[env.staging]
+name = "digitalindiaproject-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+APP_DOMAIN = "https://digitalindiaproject.com"
+BUSINESS_EMAIL = "support@digitalindiaproject.com"
+CASHFREE_API_VERSION = "2023-08-01"
+CASHFREE_ENV = "sandbox"
+FREE_PLAN_MAX_R2_BYTES = "1073741824"
+FREE_PLAN_MAX_UPLOAD_BYTES = "10485760"
+PAYMENTS_EMAIL = "payments@digitalindiaproject.com"

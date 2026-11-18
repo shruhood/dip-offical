@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /operator
+Disallow: /manager
+Disallow: /partner
+Disallow: /dashboard
+Disallow: /workspace
+Disallow: /api/
+
+Sitemap: https://digitalindiaproject.com/sitemap.xml
